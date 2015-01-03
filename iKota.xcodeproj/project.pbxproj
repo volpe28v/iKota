@@ -1,0 +1,422 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0714BBFE1A58A2ED006FBF8D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0714BBFD1A58A2ED006FBF8D /* AppDelegate.swift */; };
+		0714BC001A58A2ED006FBF8D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0714BBFF1A58A2ED006FBF8D /* ViewController.swift */; };
+		0714BC031A58A2EE006FBF8D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0714BC011A58A2EE006FBF8D /* Main.storyboard */; };
+		0714BC051A58A2EE006FBF8D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0714BC041A58A2EE006FBF8D /* Images.xcassets */; };
+		0714BC081A58A2EE006FBF8D /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0714BC061A58A2EE006FBF8D /* LaunchScreen.xib */; };
+		0714BC141A58A2EE006FBF8D /* iKotaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0714BC131A58A2EE006FBF8D /* iKotaTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0714BC0E1A58A2EE006FBF8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0714BBF01A58A2ED006FBF8D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0714BBF71A58A2ED006FBF8D;
+			remoteInfo = iKota;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0714BBF81A58A2ED006FBF8D /* iKota.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iKota.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0714BBFC1A58A2ED006FBF8D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0714BBFD1A58A2ED006FBF8D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		0714BBFF1A58A2ED006FBF8D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		0714BC021A58A2EE006FBF8D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		0714BC041A58A2EE006FBF8D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		0714BC071A58A2EE006FBF8D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		0714BC0D1A58A2EE006FBF8D /* iKotaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iKotaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0714BC121A58A2EE006FBF8D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0714BC131A58A2EE006FBF8D /* iKotaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iKotaTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0714BBF51A58A2ED006FBF8D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0714BC0A1A58A2EE006FBF8D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0714BBEF1A58A2ED006FBF8D = {
+			isa = PBXGroup;
+			children = (
+				0714BBFA1A58A2ED006FBF8D /* iKota */,
+				0714BC101A58A2EE006FBF8D /* iKotaTests */,
+				0714BBF91A58A2ED006FBF8D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		0714BBF91A58A2ED006FBF8D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0714BBF81A58A2ED006FBF8D /* iKota.app */,
+				0714BC0D1A58A2EE006FBF8D /* iKotaTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0714BBFA1A58A2ED006FBF8D /* iKota */ = {
+			isa = PBXGroup;
+			children = (
+				0714BBFD1A58A2ED006FBF8D /* AppDelegate.swift */,
+				0714BBFF1A58A2ED006FBF8D /* ViewController.swift */,
+				0714BC011A58A2EE006FBF8D /* Main.storyboard */,
+				0714BC041A58A2EE006FBF8D /* Images.xcassets */,
+				0714BC061A58A2EE006FBF8D /* LaunchScreen.xib */,
+				0714BBFB1A58A2ED006FBF8D /* Supporting Files */,
+			);
+			path = iKota;
+			sourceTree = "<group>";
+		};
+		0714BBFB1A58A2ED006FBF8D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0714BBFC1A58A2ED006FBF8D /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0714BC101A58A2EE006FBF8D /* iKotaTests */ = {
+			isa = PBXGroup;
+			children = (
+				0714BC131A58A2EE006FBF8D /* iKotaTests.swift */,
+				0714BC111A58A2EE006FBF8D /* Supporting Files */,
+			);
+			path = iKotaTests;
+			sourceTree = "<group>";
+		};
+		0714BC111A58A2EE006FBF8D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0714BC121A58A2EE006FBF8D /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0714BBF71A58A2ED006FBF8D /* iKota */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0714BC171A58A2EE006FBF8D /* Build configuration list for PBXNativeTarget "iKota" */;
+			buildPhases = (
+				0714BBF41A58A2ED006FBF8D /* Sources */,
+				0714BBF51A58A2ED006FBF8D /* Frameworks */,
+				0714BBF61A58A2ED006FBF8D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iKota;
+			productName = iKota;
+			productReference = 0714BBF81A58A2ED006FBF8D /* iKota.app */;
+			productType = "com.apple.product-type.application";
+		};
+		0714BC0C1A58A2EE006FBF8D /* iKotaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0714BC1A1A58A2EE006FBF8D /* Build configuration list for PBXNativeTarget "iKotaTests" */;
+			buildPhases = (
+				0714BC091A58A2EE006FBF8D /* Sources */,
+				0714BC0A1A58A2EE006FBF8D /* Frameworks */,
+				0714BC0B1A58A2EE006FBF8D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0714BC0F1A58A2EE006FBF8D /* PBXTargetDependency */,
+			);
+			name = iKotaTests;
+			productName = iKotaTests;
+			productReference = 0714BC0D1A58A2EE006FBF8D /* iKotaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0714BBF01A58A2ED006FBF8D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = "Naoki KODAMA";
+				TargetAttributes = {
+					0714BBF71A58A2ED006FBF8D = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+					0714BC0C1A58A2EE006FBF8D = {
+						CreatedOnToolsVersion = 6.1.1;
+						TestTargetID = 0714BBF71A58A2ED006FBF8D;
+					};
+				};
+			};
+			buildConfigurationList = 0714BBF31A58A2ED006FBF8D /* Build configuration list for PBXProject "iKota" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0714BBEF1A58A2ED006FBF8D;
+			productRefGroup = 0714BBF91A58A2ED006FBF8D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0714BBF71A58A2ED006FBF8D /* iKota */,
+				0714BC0C1A58A2EE006FBF8D /* iKotaTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0714BBF61A58A2ED006FBF8D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0714BC031A58A2EE006FBF8D /* Main.storyboard in Resources */,
+				0714BC081A58A2EE006FBF8D /* LaunchScreen.xib in Resources */,
+				0714BC051A58A2EE006FBF8D /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0714BC0B1A58A2EE006FBF8D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0714BBF41A58A2ED006FBF8D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0714BC001A58A2ED006FBF8D /* ViewController.swift in Sources */,
+				0714BBFE1A58A2ED006FBF8D /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0714BC091A58A2EE006FBF8D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0714BC141A58A2EE006FBF8D /* iKotaTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0714BC0F1A58A2EE006FBF8D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0714BBF71A58A2ED006FBF8D /* iKota */;
+			targetProxy = 0714BC0E1A58A2EE006FBF8D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		0714BC011A58A2EE006FBF8D /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0714BC021A58A2EE006FBF8D /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		0714BC061A58A2EE006FBF8D /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0714BC071A58A2EE006FBF8D /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		0714BC151A58A2EE006FBF8D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0714BC161A58A2EE006FBF8D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		0714BC181A58A2EE006FBF8D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = iKota/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		0714BC191A58A2EE006FBF8D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = iKota/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		0714BC1B1A58A2EE006FBF8D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = iKotaTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iKota.app/iKota";
+			};
+			name = Debug;
+		};
+		0714BC1C1A58A2EE006FBF8D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = iKotaTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iKota.app/iKota";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0714BBF31A58A2ED006FBF8D /* Build configuration list for PBXProject "iKota" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0714BC151A58A2EE006FBF8D /* Debug */,
+				0714BC161A58A2EE006FBF8D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0714BC171A58A2EE006FBF8D /* Build configuration list for PBXNativeTarget "iKota" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0714BC181A58A2EE006FBF8D /* Debug */,
+				0714BC191A58A2EE006FBF8D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		0714BC1A1A58A2EE006FBF8D /* Build configuration list for PBXNativeTarget "iKotaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0714BC1B1A58A2EE006FBF8D /* Debug */,
+				0714BC1C1A58A2EE006FBF8D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0714BBF01A58A2ED006FBF8D /* Project object */;
+}
