@@ -26,12 +26,30 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var tunesTable: UITableView!
     @IBOutlet weak var tunesIndicator: UIActivityIndicatorView!
     
+    
+    @IBOutlet weak var playOrStopButton: UIBarButtonItem!
+    
     func dispatch_async_global(block: () -> ()) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), block)
     }
     
     func dispatch_async_main(block: () -> ()) {
         dispatch_async(dispatch_get_main_queue(), block)
+    }
+    
+    func setCurrentPlayOrStopButtonLabel(){
+        switch (self.player.playbackState){
+        case MPMusicPlaybackState.Stopped,MPMusicPlaybackState.Paused:
+            println("Stop")
+            self.playOrStopButton.title = "▶︎"
+        case MPMusicPlaybackState.Playing,MPMusicPlaybackState.Interrupted,MPMusicPlaybackState.SeekingForward,MPMusicPlaybackState.SeekingBackward:
+            println("Playing")
+            self.playOrStopButton.title = "■"
+        }
+        
+        if self.player.playbackState != MPMusicPlaybackState.Stopped && self.player.playbackState != MPMusicPlaybackState.Paused {
+        }else{
+        }
     }
     
     override func viewDidLoad() {
@@ -69,7 +87,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         )
         
         self.player.beginGeneratingPlaybackNotifications()
-        //self.setCurrentPlayOrStopButtonLabel()
+        self.setCurrentPlayOrStopButtonLabel()
 
     }
 
@@ -87,6 +105,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
     
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath:NSIndexPath) -> UITableViewCell {
         let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "tune")
 
@@ -97,11 +116,29 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         cell.imageView?.image = image
         
         var backgroundView = UIView()
-        backgroundView.backgroundColor = UIColor.darkGrayColor()
+        backgroundView.backgroundColor = UIColor.lightGrayColor()
         cell.selectedBackgroundView = backgroundView;
         return cell
     }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath:NSIndexPath!) {
+        var tunes = Array<AnyObject>()
+        for (i,item : AnyObject) in enumerate(self.relateItems as Array){
+            if (i < indexPath.row){
+                tunes.append(item)
+            }else if (i == indexPath.row){
+                tunes.insert(item,atIndex: 0)
+            }else{
+                tunes.insert(item,atIndex: tunes.count - indexPath.row)
+            }
+        }
+        self.playingRelateIndex = indexPath.row
+        var items = MPMediaItemCollection(items: tunes)
+        self.player.setQueueWithItemCollection(items)
+        self.player.shuffleMode = MPMusicShuffleMode.Off
+        self.player.repeatMode = MPMusicRepeatMode.All       //全曲でリピート
+        self.player.play()
+    }
     
     // 再生曲が変わったら呼ばれるハンドラ
     func handle_NowPlayingItemChanged(){
@@ -177,7 +214,33 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // 再生状態が変わったら呼ばれるハンドラ
     func handle_PlaybackStateDidChanged(){
+        self.setCurrentPlayOrStopButtonLabel()
     }
 
+    @IBAction func onClickPlayOrStopButton(sender: AnyObject) {
+        if self.player.playbackState == MPMusicPlaybackState.Playing {
+            self.playOrStopButton.title = "▶︎"
+            self.player.pause()
+        }else{
+            self.playOrStopButton.title = "■"
+            self.player.play()
+        }
+    }
+    
+    @IBAction func onClickRewindButton(sender: AnyObject) {
+        self.player.skipToPreviousItem()
+    }
+    
+    @IBAction func onClickForwardButton(sender: AnyObject) {
+        self.player.skipToNextItem()
+   }
+    
+    @IBAction func onClickShuffleButton(sender: AnyObject) {
+        self.player.setQueueWithQuery(query)
+        self.player.shuffleMode = MPMusicShuffleMode.Songs   //全曲でシャッフル
+        self.player.repeatMode = MPMusicRepeatMode.All       //全曲でリピート
+        self.player.play()
+        
+    }
 }
 

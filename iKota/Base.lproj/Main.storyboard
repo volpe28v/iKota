@@ -69,13 +69,29 @@
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xGw-fi-nOI">
                                 <rect key="frame" x="0.0" y="492" width="600" height="44"/>
                                 <items>
-                                    <barButtonItem title="Shuffle" id="Rkh-Q9-HTh"/>
+                                    <barButtonItem title="Shuffle" id="Rkh-Q9-HTh">
+                                        <connections>
+                                            <action selector="onClickShuffleButton:" destination="s1j-1C-fPF" id="pye-qg-FrA"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="iou-1m-riA"/>
-                                    <barButtonItem systemItem="rewind" id="PHB-bu-lCR"/>
+                                    <barButtonItem systemItem="rewind" id="PHB-bu-lCR">
+                                        <connections>
+                                            <action selector="onClickRewindButton:" destination="s1j-1C-fPF" id="rgt-Fa-fmc"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem width="20" style="plain" systemItem="fixedSpace" id="stk-wv-Glj"/>
-                                    <barButtonItem systemItem="play" id="nUM-Wo-7BP"/>
+                                    <barButtonItem title="▶︎" width="10" id="nUM-Wo-7BP">
+                                        <connections>
+                                            <action selector="onClickPlayOrStopButton:" destination="s1j-1C-fPF" id="IL2-0y-Slm"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem width="20" style="plain" systemItem="fixedSpace" id="ZOx-LJ-9Nz"/>
-                                    <barButtonItem systemItem="fastForward" id="aVk-17-Jnu"/>
+                                    <barButtonItem systemItem="fastForward" id="aVk-17-Jnu">
+                                        <connections>
+                                            <action selector="onClickForwardButton:" destination="s1j-1C-fPF" id="5Pi-sh-OWk"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="2rl-XE-zdi"/>
                                 </items>
                             </toolbar>
@@ -117,6 +133,7 @@
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" title="iKota" id="rKa-U4-7B9"/>
                     <connections>
+                        <outlet property="playOrStopButton" destination="nUM-Wo-7BP" id="zBG-Dc-EVh"/>
                         <outlet property="playingAlbumLabel" destination="eYK-S8-2SZ" id="0Jd-O5-sAG"/>
                         <outlet property="playingImageView" destination="rck-7u-40O" id="141-17-D1Z"/>
                         <outlet property="playingTitleLabel" destination="HHW-wY-ph3" id="Cdl-WS-9FF"/>
