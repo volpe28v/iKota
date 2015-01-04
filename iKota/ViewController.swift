@@ -107,17 +107,29 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath:NSIndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "tune")
-
+        var cellTmp = tableView.dequeueReusableCellWithIdentifier("tune") as? UITableViewCell
+        
+        if cellTmp == nil {
+            cellTmp = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "tune")
+            var backgroundView = UIView()
+            backgroundView.backgroundColor = UIColor.lightGrayColor()
+            cellTmp!.selectedBackgroundView = backgroundView
+            cellTmp!.detailTextLabel?.textColor = UIColor.darkGrayColor()
+        }
+        
+        let cell = cellTmp!
+        
         let item = self.relateItems[indexPath.row] as MPMediaItem
-        cell.textLabel?.text = item.valueForProperty(MPMediaItemPropertyTitle) as NSString
+        var titleString: String = item.valueForProperty(MPMediaItemPropertyTitle) as String
+        var albumString: String = item.valueForProperty(MPMediaItemPropertyAlbumTitle) as String
+        var tuning: String = self.tuneCollection.getTuningByTune(titleString, album: albumString)
+
+        cell.textLabel?.text = titleString
+        cell.detailTextLabel?.text = tuning
         var artwork = item.valueForProperty(MPMediaItemPropertyArtwork) as MPMediaItemArtwork
         var image = artwork.imageWithSize(CGSizeMake(30,30)) as UIImage
         cell.imageView?.image = image
         
-        var backgroundView = UIView()
-        backgroundView.backgroundColor = UIColor.lightGrayColor()
-        cell.selectedBackgroundView = backgroundView;
         return cell
     }
     
