@@ -69,9 +69,9 @@
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xGw-fi-nOI">
                                 <rect key="frame" x="0.0" y="492" width="600" height="44"/>
                                 <items>
-                                    <barButtonItem title="Shuffle" id="Rkh-Q9-HTh">
+                                    <barButtonItem title="Tuning" id="gp0-bd-Z8Z">
                                         <connections>
-                                            <action selector="onClickShuffleButton:" destination="s1j-1C-fPF" id="pye-qg-FrA"/>
+                                            <action selector="onClickTuningButton:" destination="s1j-1C-fPF" id="dez-ht-dEE"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="iou-1m-riA"/>
@@ -80,13 +80,13 @@
                                             <action selector="onClickRewindButton:" destination="s1j-1C-fPF" id="rgt-Fa-fmc"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem width="20" style="plain" systemItem="fixedSpace" id="stk-wv-Glj"/>
+                                    <barButtonItem width="14" style="plain" systemItem="fixedSpace" id="stk-wv-Glj"/>
                                     <barButtonItem title="▶︎" width="10" id="nUM-Wo-7BP">
                                         <connections>
                                             <action selector="onClickPlayOrStopButton:" destination="s1j-1C-fPF" id="IL2-0y-Slm"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem width="20" style="plain" systemItem="fixedSpace" id="ZOx-LJ-9Nz"/>
+                                    <barButtonItem width="14" style="plain" systemItem="fixedSpace" id="ZOx-LJ-9Nz"/>
                                     <barButtonItem systemItem="fastForward" id="aVk-17-Jnu">
                                         <connections>
                                             <action selector="onClickForwardButton:" destination="s1j-1C-fPF" id="5Pi-sh-OWk"/>

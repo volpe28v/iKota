@@ -194,7 +194,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.playingAlbumLabel.text = albumString
         
         // 表示中のチューニングを保持
-        if self.currentTuningBase == tuningBase {
+        if self.isAlbumMode == false && self.currentTuningBase == tuningBase {
             // 関連曲の再生曲を選択状態にする
             let selectedIndex = self.tunesTable.indexPathForSelectedRow()
             if (selectedIndex != nil){
@@ -205,6 +205,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             }
             return
         }
+
+        self.isAlbumMode = false
         
         // テーブルをクリア
         self.relateItems = []
@@ -261,9 +263,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
         self.playingTitleLabel.text = titleString
         self.playingTuningLabel.text = tuning
-        self.playingAlbumLabel.text = albumString
         
-        if self.isAlbumMode {
+        println(self.playingAlbumLabel)
+        println(albumString)
+        
+        if self.isAlbumMode && self.playingAlbumLabel.text == albumString{
             // 関連曲の再生曲を選択状態にする
             let selectedIndex = self.tunesTable.indexPathForSelectedRow()
             if (selectedIndex != nil){
@@ -276,6 +280,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
         
         self.isAlbumMode = true
+        self.playingAlbumLabel.text = albumString
         
         // テーブルをクリア
         self.relateItems = []
@@ -346,6 +351,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
     }
     
+    @IBAction func onClickTuningButton(sender: AnyObject) {
+        self.updateTunelist()
+    }
+
     @IBAction func onClickAlbumButton(sender: AnyObject) {
         self.updateTunelistForAlbum()
     }
