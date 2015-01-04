@@ -30,24 +30,31 @@
                         <viewControllerLayoutGuide type="bottom" id="O4v-0f-oPT"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="EHP-rd-4js">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="2pM-Qo-iAH">
-                                <rect key="frame" x="16" y="164" width="568" height="386"/>
+                                <rect key="frame" x="16" y="100" width="568" height="386"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="evc-zH-W4O">
+                                <rect key="frame" x="290" y="181" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="2pM-Qo-iAH" secondAttribute="trailing" id="0Ba-Sd-kfk"/>
+                            <constraint firstAttribute="centerX" secondItem="evc-zH-W4O" secondAttribute="centerX" id="3QV-uA-Qbs"/>
                             <constraint firstItem="2pM-Qo-iAH" firstAttribute="top" secondItem="r9G-a3-ChU" secondAttribute="bottom" constant="100" id="Wgr-sG-eY6"/>
                             <constraint firstAttribute="bottomMargin" secondItem="2pM-Qo-iAH" secondAttribute="bottom" constant="50" id="YbS-8g-0la"/>
+                            <constraint firstItem="evc-zH-W4O" firstAttribute="top" secondItem="r9G-a3-ChU" secondAttribute="bottom" constant="117" id="Zwk-1F-y9c"/>
                             <constraint firstItem="2pM-Qo-iAH" firstAttribute="leading" secondItem="EHP-rd-4js" secondAttribute="leadingMargin" id="jwp-E6-TgV"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" title="iKota" id="rKa-U4-7B9"/>
                     <connections>
+                        <outlet property="tunesIndicator" destination="evc-zH-W4O" id="djF-Jo-BjQ"/>
                         <outlet property="tunesTable" destination="2pM-Qo-iAH" id="tzV-Qb-l7C"/>
                     </connections>
                 </viewController>
