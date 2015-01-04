@@ -93,6 +93,11 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="2rl-XE-zdi"/>
+                                    <barButtonItem title="Album" id="usR-2f-rf3">
+                                        <connections>
+                                            <action selector="onClickAlbumButton:" destination="s1j-1C-fPF" id="P1T-md-SEU"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                         </subviews>

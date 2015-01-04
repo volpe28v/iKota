@@ -17,6 +17,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var relateItems : Array<AnyObject>!
     var currentTuningBase : String!
     var playingRelateIndex : Int!
+    var isAlbumMode : Bool
 
     @IBOutlet weak var playingImageView: UIImageView!
     @IBOutlet weak var playingTitleLabel: UILabel!
@@ -29,6 +30,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     @IBOutlet weak var playOrStopButton: UIBarButtonItem!
     
+    override init() {
+        self.isAlbumMode = false
+        super.init()
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        self.isAlbumMode = false
+        super.init(coder: aDecoder)
+    }
+
     func dispatch_async_global(block: () -> ()) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), block)
     }
@@ -105,7 +116,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
     
-    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath:NSIndexPath) -> UITableViewCell {
         var cellTmp = tableView.dequeueReusableCellWithIdentifier("tune") as? UITableViewCell
         
@@ -154,6 +164,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // 再生曲が変わったら呼ばれるハンドラ
     func handle_NowPlayingItemChanged(){
+        if self.isAlbumMode {
+            self.updateTunelistForAlbum()
+        }else{
+            self.updateTunelist()
+        }
+    }
+    
+    func updateTunelist(){
         let item = player.nowPlayingItem as MPMediaItem
         
         // 再生中の曲情報を表示
@@ -195,6 +213,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.currentTuningBase = tuningBase
         
         dispatch_async_global {
+            // 別スレッド
             println("tuningBase: " + tuningBase)
             // チューニングが同じ曲をテーブルに表示
             var target_items = Array<AnyObject>()
@@ -209,21 +228,91 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     target_items.append(item)
                 }
             }
-            println("append: " + tuningBase)
-            println("count: " + String(target_items.count))
             
             self.dispatch_async_main {
+                // UIスレッド
                 println("show:" + tuningBase)
                 self.relateItems = target_items
                 
                 // テーブルを更新
-            self.tunesIndicator.stopAnimating()
+                self.tunesIndicator.stopAnimating()
+                self.tunesTable.reloadData()
+            }
+        }
+    }
+    
+    func updateTunelistForAlbum(){
+        let item = player.nowPlayingItem as MPMediaItem
+        
+        // 再生中の曲情報を表示
+        var titleString: String = item.valueForProperty(MPMediaItemPropertyTitle) as String
+        var albumString: String = item.valueForProperty(MPMediaItemPropertyAlbumTitle) as String
+        var tuning: String = self.tuneCollection.getTuningByTune(titleString, album: albumString)
+        var tuningBase: String = self.tuneCollection.getTuningBaseByTune(titleString, album: albumString)
+        
+        println(titleString)
+        
+        if let image = self.playingImageView {
+            let artwork = item.valueForProperty(MPMediaItemPropertyArtwork) as MPMediaItemArtwork
+            // 90x90 にすると落ちるので 80x80にしている
+            let aw_image = artwork.imageWithSize(CGSizeMake(80,80)) as UIImage
+            
+            image.image = aw_image
+        }
+        self.playingTitleLabel.text = titleString
+        self.playingTuningLabel.text = tuning
+        self.playingAlbumLabel.text = albumString
+        
+        if self.isAlbumMode {
+            // 関連曲の再生曲を選択状態にする
+            let selectedIndex = self.tunesTable.indexPathForSelectedRow()
+            if (selectedIndex != nil){
+                println(selectedIndex?.row)
+                var nextRow:Int = player.indexOfNowPlayingItem + self.playingRelateIndex
+                let currentIndexPath = NSIndexPath(forRow:nextRow, inSection:0)
+                self.tunesTable.selectRowAtIndexPath(currentIndexPath, animated: true, scrollPosition: UITableViewScrollPosition.Middle)
+            }
+            return
+        }
+        
+        self.isAlbumMode = true
+        
+        // テーブルをクリア
+        self.relateItems = []
+        self.tunesTable.reloadData()
+        self.tunesIndicator.startAnimating()
+        self.currentTuningBase = tuningBase
+        
+        dispatch_async_global {
+            // 別スレッド
+            println("tuningBase: " + tuningBase)
+            // チューニングが同じ曲をテーブルに表示
+            var target_items = Array<AnyObject>()
+            for item : AnyObject in self.query.items{
+                if self.currentTuningBase != tuningBase {
+                    println("tuning changed! :" + tuningBase + " -> " + self.currentTuningBase)
+                    return
+                }
+                var titleString: String = item.valueForProperty(MPMediaItemPropertyTitle) as String
+                var itemAlbumString: String = item.valueForProperty(MPMediaItemPropertyAlbumTitle) as String
+                if itemAlbumString == albumString {
+                    target_items.append(item)
+                }
+            }
+            
+            self.dispatch_async_main {
+                // UIスレッド
+                println("show:" + tuningBase)
+                self.relateItems = target_items
+                
+                // テーブルを更新
+                self.tunesIndicator.stopAnimating()
                 self.tunesTable.reloadData()
             }
         }
         
     }
-    
+
     // 再生状態が変わったら呼ばれるハンドラ
     func handle_PlaybackStateDidChanged(){
         self.setCurrentPlayOrStopButtonLabel()
@@ -245,14 +334,20 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     @IBAction func onClickForwardButton(sender: AnyObject) {
         self.player.skipToNextItem()
-   }
+    }
     
     @IBAction func onClickShuffleButton(sender: AnyObject) {
+        self.isAlbumMode = false
+        
         self.player.setQueueWithQuery(query)
         self.player.shuffleMode = MPMusicShuffleMode.Songs   //全曲でシャッフル
         self.player.repeatMode = MPMusicRepeatMode.All       //全曲でリピート
         self.player.play()
         
+    }
+    
+    @IBAction func onClickAlbumButton(sender: AnyObject) {
+        self.updateTunelistForAlbum()
     }
 }
 

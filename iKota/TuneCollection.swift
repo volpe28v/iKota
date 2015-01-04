@@ -284,7 +284,16 @@ class TuneCollection {
         }
         return false
     }
-    
+
+    func isAlbum(title: String, album: String) -> Bool{
+        for tune : Tune in self.tunes{
+            if tune.title == title && tune.album == album {
+                return true
+            }
+        }
+        return false
+    }
+
     // チューニング + capo を取得
     func getTuningByTune(title: String, album: String) -> String{
         for tune : Tune in self.tunes{
