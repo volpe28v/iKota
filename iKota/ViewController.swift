@@ -18,6 +18,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var currentTuningBase : String!
     var playingRelateIndex : Int!
 
+    @IBOutlet weak var playingImageView: UIImageView!
+    @IBOutlet weak var playingTitleLabel: UILabel!
+    @IBOutlet weak var playingTuningLabel: UILabel!
+    @IBOutlet weak var playingAlbumLabel: UILabel!
+    
     @IBOutlet weak var tunesTable: UITableView!
     @IBOutlet weak var tunesIndicator: UIActivityIndicatorView!
     
@@ -109,6 +114,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         var tuningBase: String = self.tuneCollection.getTuningBaseByTune(titleString, album: albumString)
 
         println(titleString)
+
+        if let image = self.playingImageView {
+            let artwork = item.valueForProperty(MPMediaItemPropertyArtwork) as MPMediaItemArtwork
+            // 90x90 にすると落ちるので 80x80にしている
+            let aw_image = artwork.imageWithSize(CGSizeMake(80,80)) as UIImage
+            
+            image.image = aw_image
+        }
+        self.playingTitleLabel.text = titleString
+        self.playingTuningLabel.text = tuning
+        self.playingAlbumLabel.text = albumString
         
         // 表示中のチューニングを保持
         if self.currentTuningBase == tuningBase {
@@ -152,7 +168,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 self.relateItems = target_items
                 
                 // テーブルを更新
-                self.tunesIndicator.stopAnimating()
+            self.tunesIndicator.stopAnimating()
                 self.tunesTable.reloadData()
             }
         }
