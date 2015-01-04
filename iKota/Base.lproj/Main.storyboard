@@ -2,35 +2,9 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="x4B-6u-HNN">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--iKota-->
-        <scene sceneID="zEI-Am-vs0">
-            <objects>
-                <tableViewController id="i4q-pd-7Z7" customClass="ViewController" customModule="iKota" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="E4k-fj-IN6">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="tune" id="6ST-SY-M7t">
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6ST-SY-M7t" id="WrI-MI-kDs">
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="i4q-pd-7Z7" id="oWJ-kC-AsI"/>
-                            <outlet property="delegate" destination="i4q-pd-7Z7" id="NZy-IV-4Hn"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="iKota" id="BQo-tX-LNN"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="M4j-ca-Rdo" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="701" y="443"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="tFN-GN-QYi">
             <objects>
@@ -40,12 +14,46 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="i4q-pd-7Z7" kind="relationship" relationship="rootViewController" id="jcV-ly-dEq"/>
+                        <segue destination="s1j-1C-fPF" kind="relationship" relationship="rootViewController" id="84R-pU-Fmg"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3KV-cM-ZXA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-119" y="443"/>
+        </scene>
+        <!--iKota-->
+        <scene sceneID="yUV-KV-c1Q">
+            <objects>
+                <viewController id="s1j-1C-fPF" customClass="ViewController" customModule="iKota" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="r9G-a3-ChU"/>
+                        <viewControllerLayoutGuide type="bottom" id="O4v-0f-oPT"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="EHP-rd-4js">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="2pM-Qo-iAH">
+                                <rect key="frame" x="16" y="164" width="568" height="386"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="2pM-Qo-iAH" secondAttribute="trailing" id="0Ba-Sd-kfk"/>
+                            <constraint firstItem="2pM-Qo-iAH" firstAttribute="top" secondItem="r9G-a3-ChU" secondAttribute="bottom" constant="100" id="Wgr-sG-eY6"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="2pM-Qo-iAH" secondAttribute="bottom" constant="50" id="YbS-8g-0la"/>
+                            <constraint firstItem="2pM-Qo-iAH" firstAttribute="leading" secondItem="EHP-rd-4js" secondAttribute="leadingMargin" id="jwp-E6-TgV"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="iKota" id="rKa-U4-7B9"/>
+                    <connections>
+                        <outlet property="tunesTable" destination="2pM-Qo-iAH" id="tzV-Qb-l7C"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mmE-J8-lV2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="685" y="451"/>
         </scene>
     </scenes>
 </document>

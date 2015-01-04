@@ -9,7 +9,7 @@
 import UIKit
 import MediaPlayer
 
-class ViewController: UITableViewController {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var player : MPMusicPlayerController!
     var query : MPMediaQuery!
     var ncenter : NSNotificationCenter!
@@ -18,9 +18,14 @@ class ViewController: UITableViewController {
     var currentTuningBase : String!
     var playingRelateIndex : Int!
 
+    @IBOutlet weak var tunesTable: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+
+        self.tunesTable.dataSource = self;
+        self.tunesTable.delegate = self;
 
         self.currentTuningBase = ""
         
@@ -59,11 +64,11 @@ class ViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 100
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath:NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath:NSIndexPath) -> UITableViewCell {
         let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "tune")
         cell.textLabel?.text = "tune"
         return cell
@@ -72,7 +77,15 @@ class ViewController: UITableViewController {
     
     // 再生曲が変わったら呼ばれるハンドラ
     func handle_NowPlayingItemChanged(){
+        let item = player.nowPlayingItem as MPMediaItem
+        
+        // 再生中の曲情報を表示
+        var titleString: String = item.valueForProperty(MPMediaItemPropertyTitle) as String
+        var albumString: String = item.valueForProperty(MPMediaItemPropertyAlbumTitle) as String
+        var tuning: String = self.tuneCollection.getTuningByTune(titleString, album: albumString)
+        var tuningBase: String = self.tuneCollection.getTuningBaseByTune(titleString, album: albumString)
 
+        println(titleString)
     }
     
     // 再生状態が変わったら呼ばれるハンドラ
