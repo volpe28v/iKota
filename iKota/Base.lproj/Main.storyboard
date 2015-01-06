@@ -33,10 +33,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="2pM-Qo-iAH">
-                                <rect key="frame" x="16" y="110" width="568" height="376"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="2pM-Qo-iAH">
+                                <rect key="frame" x="0.0" y="110" width="600" height="376"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="separatorColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                                <color key="separatorColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                             </tableView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="evc-zH-W4O">
                                 <rect key="frame" x="290" y="117" width="20" height="20"/>
@@ -66,8 +66,8 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xGw-fi-nOI">
-                                <rect key="frame" x="0.0" y="492" width="600" height="44"/>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xGw-fi-nOI">
+                                <rect key="frame" x="0.0" y="492" width="600" height="50"/>
                                 <items>
                                     <barButtonItem title="Tuning" id="gp0-bd-Z8Z">
                                         <connections>
@@ -103,7 +103,8 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="2pM-Qo-iAH" secondAttribute="trailing" id="0Ba-Sd-kfk"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="2pM-Qo-iAH" secondAttribute="trailing" constant="-16" id="0Ba-Sd-kfk"/>
+                            <constraint firstItem="xGw-fi-nOI" firstAttribute="top" secondItem="2pM-Qo-iAH" secondAttribute="bottom" id="0xb-rG-vxU"/>
                             <constraint firstItem="2pM-Qo-iAH" firstAttribute="top" secondItem="rck-7u-40O" secondAttribute="bottom" constant="5" id="1fW-vO-7KI"/>
                             <constraint firstAttribute="trailingMargin" secondItem="HHW-wY-ph3" secondAttribute="trailing" constant="5" id="1gG-0L-Hpk"/>
                             <constraint firstAttribute="centerX" secondItem="evc-zH-W4O" secondAttribute="centerX" id="3QV-uA-Qbs"/>
@@ -122,7 +123,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="eYK-S8-2SZ" secondAttribute="trailing" constant="5" id="fHm-Vd-0bW"/>
                             <constraint firstItem="eYK-S8-2SZ" firstAttribute="top" secondItem="HHW-wY-ph3" secondAttribute="bottom" constant="2" id="gX2-dw-qLO"/>
                             <constraint firstItem="rck-7u-40O" firstAttribute="leading" secondItem="EHP-rd-4js" secondAttribute="leadingMargin" id="iZr-UB-Jh4"/>
-                            <constraint firstItem="2pM-Qo-iAH" firstAttribute="leading" secondItem="EHP-rd-4js" secondAttribute="leadingMargin" id="jwp-E6-TgV"/>
+                            <constraint firstItem="2pM-Qo-iAH" firstAttribute="leading" secondItem="EHP-rd-4js" secondAttribute="leadingMargin" constant="-16" id="jwp-E6-TgV"/>
                             <constraint firstItem="HHW-wY-ph3" firstAttribute="top" secondItem="r9G-a3-ChU" secondAttribute="bottom" constant="20" id="l8D-g0-HVh"/>
                             <constraint firstItem="Kwg-Sr-tWb" firstAttribute="leading" secondItem="rck-7u-40O" secondAttribute="trailing" constant="5" id="r9x-TC-zys"/>
                             <constraint firstItem="O4v-0f-oPT" firstAttribute="top" secondItem="xGw-fi-nOI" secondAttribute="bottom" id="t63-cq-8oz"/>
@@ -130,6 +131,7 @@
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="Y5q-KD-xrk"/>
+                                <exclude reference="YbS-8g-0la"/>
                                 <exclude reference="ABo-Jo-B6V"/>
                                 <exclude reference="3rP-41-MrZ"/>
                             </mask>
