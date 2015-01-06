@@ -8,6 +8,7 @@
 
 import UIKit
 import MediaPlayer
+import AVFoundation
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var player : MPMusicPlayerController!
@@ -19,6 +20,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var playingRelateIndex : Int!
     var isAlbumMode : Bool
 
+    var avplayer : AVAudioPlayer!
+    
     @IBOutlet weak var playingImageView: UIImageView!
     @IBOutlet weak var playingTitleLabel: UILabel!
     @IBOutlet weak var playingTuningLabel: UILabel!
@@ -160,6 +163,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 tunes.insert(item,atIndex: tunes.count - indexPath.row)
             }
         }
+        
+        /* // 再生速度を変更するコード
+        let item: MPMediaItem = self.relateItems[indexPath.row] as MPMediaItem
+        let url: NSURL = item.valueForProperty(MPMediaItemPropertyAssetURL) as NSURL
+        self.avplayer = AVAudioPlayer(contentsOfURL: url, error:nil)
+        self.avplayer.enableRate = true
+        self.avplayer.rate = 0.75
+        self.avplayer.play()
+        */
+        
         self.playingRelateIndex = indexPath.row
         var items = MPMediaItemCollection(items: tunes)
         self.player.setQueueWithItemCollection(items)
@@ -354,7 +367,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.player.shuffleMode = MPMusicShuffleMode.Songs   //全曲でシャッフル
         self.player.repeatMode = MPMusicRepeatMode.All       //全曲でリピート
         self.player.play()
-        
     }
     
     @IBAction func onClickTuningButton(sender: AnyObject) {
