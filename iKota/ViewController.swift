@@ -120,7 +120,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         var cellTmp = tableView.dequeueReusableCellWithIdentifier("tune") as? UITableViewCell
         
         if cellTmp == nil {
-            cellTmp = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "tune")
+            cellTmp = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "tune")
             var backgroundView = UIView()
             backgroundView.backgroundColor = UIColor.lightGrayColor()
             cellTmp!.selectedBackgroundView = backgroundView
@@ -132,13 +132,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let item = self.relateItems[indexPath.row] as MPMediaItem
         var titleString: String = item.valueForProperty(MPMediaItemPropertyTitle) as String
         var albumString: String = item.valueForProperty(MPMediaItemPropertyAlbumTitle) as String
-        var tuning: String = self.tuneCollection.getTuningByTune(titleString, album: albumString)
+        var tuningString: String = self.tuneCollection.getTuningByTune(titleString, album: albumString)
 
-        cell.textLabel?.text = titleString
-        cell.detailTextLabel?.text = tuning
+        // Cellに部品を配置
         var artwork = item.valueForProperty(MPMediaItemPropertyArtwork) as MPMediaItemArtwork
-        var image = artwork.imageWithSize(CGSizeMake(30,30)) as UIImage
-        cell.imageView?.image = image
+        var image = artwork.imageWithSize(CGSizeMake(50,50)) as UIImage
+        var imageView = cell.viewWithTag(1) as UIImageView
+        imageView.image = image
+
+        var title = cell.viewWithTag(2) as UILabel
+        title.text = titleString
+
+        var tuning = cell.viewWithTag(3) as UILabel
+        tuning.text = tuningString
         
         return cell
     }
