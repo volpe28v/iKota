@@ -14,7 +14,7 @@ struct YoutubeInfo {
     var url: String = ""
     var thumbnail: String = ""
     var author: String = ""
-    var count: Int = 0
+    var count: String = ""
 }
 
 class YoutubeViewController: UITableViewController {
@@ -24,7 +24,6 @@ class YoutubeViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        println("hello Youtube")
         
         self.getYoutube()
         
@@ -52,19 +51,15 @@ class YoutubeViewController: UITableViewController {
         let data = NSData(contentsOfURL: thumbnail!)
         var imageView = cell.viewWithTag(1) as UIImageView
         imageView.image = UIImage(data: data!)
-        
-        /*
-        var artwork = item.valueForProperty(MPMediaItemPropertyArtwork) as MPMediaItemArtwork
-        var image = artwork.imageWithSize(CGSizeMake(50,50)) as UIImage
-        var imageView = cell.viewWithTag(1) as UIImageView
-        imageView.image = image
-        
+
         var title = cell.viewWithTag(2) as UILabel
-        title.text = titleString
-        
-        var tuning = cell.viewWithTag(3) as UILabel
-        tuning.text = tuningString
-        */
+        title.text = self.youtubeData[indexPath.row].title
+
+        var author = cell.viewWithTag(3) as UILabel
+        author.text = self.youtubeData[indexPath.row].author
+
+        var count = cell.viewWithTag(4) as UILabel
+        count.text = self.youtubeData[indexPath.row].count
         
         return cell
     }
@@ -111,7 +106,7 @@ class YoutubeViewController: UITableViewController {
                 youtube.url = url
                 youtube.thumbnail = thumbnail_url
                 youtube.author = author_name_body
-                youtube.count = viewCount.toInt()!
+                youtube.count = viewCount
                 self.youtubeData.append(youtube)
             }
 

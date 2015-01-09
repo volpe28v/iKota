@@ -228,11 +228,53 @@
                                                 <constraint firstAttribute="width" constant="120" id="OW8-et-t4M"/>
                                             </constraints>
                                         </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Title" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g2I-oO-n6Q">
+                                            <rect key="frame" x="136" y="13" width="40" height="24"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="再生回数:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="noY-qt-gTO">
+                                            <rect key="frame" x="136" y="98" width="73" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Count" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RGy-8y-1Ek">
+                                            <rect key="frame" x="203" y="101" width="42" height="18"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Author" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="26U-BM-VTW">
+                                            <rect key="frame" x="136" y="77" width="456" height="16"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstItem="noY-qt-gTO" firstAttribute="bottom" secondItem="Gbx-rS-TfB" secondAttribute="bottomMargin" id="1Ns-DG-MU7"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="RGy-8y-1Ek" secondAttribute="trailing" id="5S5-8d-RWk"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="26U-BM-VTW" secondAttribute="trailing" id="F0W-4g-za8"/>
+                                        <constraint firstItem="g2I-oO-n6Q" firstAttribute="leading" secondItem="1mg-bm-yhE" secondAttribute="trailing" constant="8" id="KK1-34-gyE"/>
                                         <constraint firstItem="1mg-bm-yhE" firstAttribute="leading" secondItem="Gbx-rS-TfB" secondAttribute="leadingMargin" id="KUJ-3l-rqJ"/>
+                                        <constraint firstItem="noY-qt-gTO" firstAttribute="leading" secondItem="1mg-bm-yhE" secondAttribute="trailing" constant="8" id="LBY-k3-Ugn"/>
+                                        <constraint firstItem="RGy-8y-1Ek" firstAttribute="leading" secondItem="noY-qt-gTO" secondAttribute="trailing" constant="2" id="Lhn-PU-FrF"/>
+                                        <constraint firstItem="RGy-8y-1Ek" firstAttribute="bottom" secondItem="Gbx-rS-TfB" secondAttribute="bottomMargin" id="NEX-UB-jVX"/>
                                         <constraint firstAttribute="centerY" secondItem="1mg-bm-yhE" secondAttribute="centerY" id="Vz3-Zu-GSG"/>
+                                        <constraint firstItem="g2I-oO-n6Q" firstAttribute="top" secondItem="Gbx-rS-TfB" secondAttribute="topMargin" constant="5" id="WGe-CO-QKw"/>
+                                        <constraint firstItem="26U-BM-VTW" firstAttribute="leading" secondItem="1mg-bm-yhE" secondAttribute="trailing" constant="8" id="fqw-6O-4e0"/>
+                                        <constraint firstItem="26U-BM-VTW" firstAttribute="top" secondItem="g2I-oO-n6Q" secondAttribute="bottom" constant="6" id="jnF-Bv-PcD"/>
+                                        <constraint firstItem="noY-qt-gTO" firstAttribute="top" secondItem="26U-BM-VTW" secondAttribute="bottom" constant="5" id="tws-ii-r49"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="g2I-oO-n6Q" secondAttribute="trailing" id="vV7-x8-JNF"/>
                                     </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="jnF-Bv-PcD"/>
+                                            <exclude reference="5S5-8d-RWk"/>
+                                        </mask>
+                                    </variation>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
