@@ -27,7 +27,6 @@ class YoutubeViewController: UITableViewController {
         super.viewDidLoad()
         
         self.getYoutube()
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -48,11 +47,11 @@ class YoutubeViewController: UITableViewController {
         let cell = cellTmp!
                 
         // Cellに部品を配置
-        let thumbnail = NSURL(string: self.youtubeData[indexPath.row].thumbnail)
-        let data = NSData(contentsOfURL: thumbnail!)
-        var imageView = cell.viewWithTag(1) as UIImageView
-        imageView.image = UIImage(data: data!)
-
+        var webView = cell.viewWithTag(1) as UIWebView
+        webView.scrollView.scrollEnabled = false
+        webView.scrollView.bounces = false
+        webView.loadHTMLString(self.getVideoHtml(self.youtubeData[indexPath.row].url), baseURL: nil)
+        
         var title = cell.viewWithTag(2) as UILabel
         title.text = self.youtubeData[indexPath.row].title
 
@@ -63,6 +62,10 @@ class YoutubeViewController: UITableViewController {
         count.text = self.youtubeData[indexPath.row].count
         
         return cell
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
     }
     
     func getYoutube(){
@@ -127,6 +130,52 @@ class YoutubeViewController: UITableViewController {
             urlVars += [k + "=" + "\(v)"]
         }
         return (!urlVars.isEmpty ? "?" : "") + join("&", urlVars)
+    }
+
+    func getVideoHtml(urlString: String) -> String{
+        let videoID = self.getQueryDictionary(urlString)["v"] as String
+        
+        var htmlString: NSString =
+        "<!DOCTYPE html>" +
+            "<html>" +
+            "<head>" +
+            "<meta name=\"viewport\" content=\"initial-scale=1.0, user-scalable=no, width=110px\">" +
+            "</head>" +
+            "<body style=\"background:#000000; margin-top:0px; margin-left:0px\">" +
+            "<iframe width=\"110px\" height=\"110px\" " +
+            "src=\"http://www.youtube.com/embed/%@?showinfo=0\" " +
+            "frameborder=\"0\" " +
+            "allowfullscreen> " +
+            "</iframe>" +
+            "</body>" +
+        "</html>"
+        
+        let html = NSString(format: htmlString,
+            videoID)
+  
+        return html
+    }
+    
+    func getQueryDictionary(urlString: String) -> NSDictionary {
+        let comp: NSURLComponents? = NSURLComponents(string: urlString)
+        
+        for (var i=0; i < comp?.queryItems?.count; i++) {
+            let item = comp?.queryItems?[i] as NSURLQueryItem
+        }
+        
+        func urlComponentsToDict(comp:NSURLComponents) -> Dictionary<String, String> {
+            var dict:Dictionary<String, String> = Dictionary<String, String>()
+            
+            for (var i=0; i < comp.queryItems?.count; i++) {
+                let item = comp.queryItems?[i] as NSURLQueryItem
+                dict[item.name] = item.value
+            }
+            
+            return dict
+        }
+        
+        var dict = urlComponentsToDict(comp!)
+        return dict
     }
 
 }
