@@ -21,7 +21,8 @@ class YoutubeViewController: UITableViewController {
     
     var baseString : String = "http://gdata.youtube.com/feeds/api/videos"
     var youtubeData: Array<YoutubeInfo> = []
-
+    var playingTitle: String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -65,7 +66,7 @@ class YoutubeViewController: UITableViewController {
     }
     
     func getYoutube(){
-        var params = ["vq": "押尾コータロー 翼"
+        var params = ["vq": "押尾コータロー " + self.playingTitle
             ,"orderby": "relevance"
             ,"start-index": "1"
             ,"max-results": "12"

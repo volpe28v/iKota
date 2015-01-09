@@ -381,5 +381,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         performSegueWithIdentifier("youtube", sender: nil)
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let item = player.nowPlayingItem as MPMediaItem
+        var titleString: String = item.valueForProperty(MPMediaItemPropertyTitle) as String
+        
+        if segue.identifier == "youtube" {
+            var youtubeController = segue.destinationViewController as YoutubeViewController
+            youtubeController.playingTitle = titleString
+        }
+    }
+    
 }
 
