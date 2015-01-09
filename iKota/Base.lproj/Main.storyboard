@@ -14,14 +14,14 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="s1j-1C-fPF" kind="relationship" relationship="rootViewController" id="84R-pU-Fmg"/>
+                        <segue destination="s1j-1C-fPF" kind="relationship" relationship="rootViewController" id="DkK-fB-qLT"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3KV-cM-ZXA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-119" y="443"/>
         </scene>
-        <!--iKota-->
+        <!--PlayList-->
         <scene sceneID="yUV-KV-c1Q">
             <objects>
                 <viewController id="s1j-1C-fPF" customClass="ViewController" customModule="iKota" customModuleProvider="target" sceneMemberID="viewController">
@@ -185,7 +185,13 @@
                         </variation>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
-                    <navigationItem key="navigationItem" title="iKota" id="rKa-U4-7B9"/>
+                    <navigationItem key="navigationItem" title="PlayList" id="rKa-U4-7B9">
+                        <barButtonItem key="rightBarButtonItem" title="Youtube" id="tVx-NG-UiR">
+                            <connections>
+                                <action selector="onClickYoutubeButton:" destination="s1j-1C-fPF" id="Rrb-rk-XhX"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="playOrStopButton" destination="nUM-Wo-7BP" id="zBG-Dc-EVh"/>
                         <outlet property="playingAlbumLabel" destination="eYK-S8-2SZ" id="0Jd-O5-sAG"/>
@@ -194,11 +200,51 @@
                         <outlet property="playingTuningLabel" destination="Kwg-Sr-tWb" id="qqD-UW-xUW"/>
                         <outlet property="tunesIndicator" destination="evc-zH-W4O" id="djF-Jo-BjQ"/>
                         <outlet property="tunesTable" destination="2pM-Qo-iAH" id="tzV-Qb-l7C"/>
+                        <segue destination="yBB-pf-U2p" kind="show" identifier="youtube" id="PC7-Mg-6Ff"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mmE-J8-lV2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="685" y="444"/>
+        </scene>
+        <!--Youtube View Controller-->
+        <scene sceneID="W3D-sj-BaI">
+            <objects>
+                <tableViewController id="yBB-pf-U2p" customClass="YoutubeViewController" customModule="iKota" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="128" sectionHeaderHeight="22" sectionFooterHeight="22" id="cA1-Y8-8DW">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="video" rowHeight="128" id="G1a-i1-A7b">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="G1a-i1-A7b" id="Gbx-rS-TfB">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1mg-bm-yhE">
+                                            <rect key="frame" x="8" y="4" width="120" height="120"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="120" id="5b4-WI-42N"/>
+                                                <constraint firstAttribute="width" constant="120" id="OW8-et-t4M"/>
+                                            </constraints>
+                                        </imageView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="1mg-bm-yhE" firstAttribute="leading" secondItem="Gbx-rS-TfB" secondAttribute="leadingMargin" id="KUJ-3l-rqJ"/>
+                                        <constraint firstAttribute="centerY" secondItem="1mg-bm-yhE" secondAttribute="centerY" id="Vz3-Zu-GSG"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="yBB-pf-U2p" id="XKu-dT-94h"/>
+                            <outlet property="delegate" destination="yBB-pf-U2p" id="2Vb-bO-mdq"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tAc-AW-yef" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1395" y="447"/>
         </scene>
     </scenes>
 </document>

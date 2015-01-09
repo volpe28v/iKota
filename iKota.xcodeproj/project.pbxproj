@@ -15,6 +15,7 @@
 		0714BC141A58A2EE006FBF8D /* iKotaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0714BC131A58A2EE006FBF8D /* iKotaTests.swift */; };
 		0714BC1E1A58A399006FBF8D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0714BC1D1A58A399006FBF8D /* DetailViewController.swift */; };
 		0714BC201A58A6C0006FBF8D /* TuneCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0714BC1F1A58A6C0006FBF8D /* TuneCollection.swift */; };
+		07319CE71A5EBEA6009C0229 /* YoutubeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07319CE61A5EBEA6009C0229 /* YoutubeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		0714BC131A58A2EE006FBF8D /* iKotaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iKotaTests.swift; sourceTree = "<group>"; };
 		0714BC1D1A58A399006FBF8D /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		0714BC1F1A58A6C0006FBF8D /* TuneCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TuneCollection.swift; sourceTree = "<group>"; };
+		07319CE61A5EBEA6009C0229 /* YoutubeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoutubeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +87,7 @@
 				0714BBFF1A58A2ED006FBF8D /* ViewController.swift */,
 				0714BC1F1A58A6C0006FBF8D /* TuneCollection.swift */,
 				0714BC1D1A58A399006FBF8D /* DetailViewController.swift */,
+				07319CE61A5EBEA6009C0229 /* YoutubeViewController.swift */,
 				0714BC011A58A2EE006FBF8D /* Main.storyboard */,
 				0714BC041A58A2EE006FBF8D /* Images.xcassets */,
 				0714BC061A58A2EE006FBF8D /* LaunchScreen.xib */,
@@ -220,6 +223,7 @@
 			files = (
 				0714BC1E1A58A399006FBF8D /* DetailViewController.swift in Sources */,
 				0714BC001A58A2ED006FBF8D /* ViewController.swift in Sources */,
+				07319CE71A5EBEA6009C0229 /* YoutubeViewController.swift in Sources */,
 				0714BBFE1A58A2ED006FBF8D /* AppDelegate.swift in Sources */,
 				0714BC201A58A6C0006FBF8D /* TuneCollection.swift in Sources */,
 			);
@@ -415,6 +419,7 @@
 				0714BC191A58A2EE006FBF8D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0714BC1A1A58A2EE006FBF8D /* Build configuration list for PBXNativeTarget "iKotaTests" */ = {
 			isa = XCConfigurationList;
@@ -423,6 +428,7 @@
 				0714BC1C1A58A2EE006FBF8D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

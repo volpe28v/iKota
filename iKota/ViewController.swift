@@ -376,5 +376,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBAction func onClickAlbumButton(sender: AnyObject) {
         self.updateTunelistForAlbum()
     }
+    
+    @IBAction func onClickYoutubeButton(sender: AnyObject) {
+        performSegueWithIdentifier("youtube", sender: nil)
+    }
+    
 }
 
