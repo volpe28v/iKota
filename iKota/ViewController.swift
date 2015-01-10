@@ -19,14 +19,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var currentTuningBase : String!
     var playingRelateIndex : Int!
     var isAlbumMode : Bool
+    var youtubeConnector : YoutubeConnector!
 
-    var avplayer : AVAudioPlayer!
+//    var avplayer : AVAudioPlayer!
     
     @IBOutlet weak var playingImageView: UIImageView!
     @IBOutlet weak var playingTitleLabel: UILabel!
     @IBOutlet weak var playingTuningLabel: UILabel!
     @IBOutlet weak var playingAlbumLabel: UILabel!
-    
+    @IBOutlet weak var playingWebView: UIWebView!
+
     @IBOutlet weak var tunesTable: UITableView!
     @IBOutlet weak var tunesIndicator: UIActivityIndicatorView!
     
@@ -103,6 +105,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.player.beginGeneratingPlaybackNotifications()
         self.setCurrentPlayOrStopButtonLabel()
 
+        self.youtubeConnector = YoutubeConnector()
     }
 
     override func didReceiveMemoryWarning() {
@@ -212,6 +215,20 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.playingTuningLabel.text = tuning
         self.playingAlbumLabel.text = albumString
         
+        self.playingWebView.loadHTMLString(
+            self.youtubeConnector.getBlankHtml(60,height: 60),baseURL: nil)
+        self.youtubeConnector.getYoutube(titleString, resultNum: 1, completionHandler: { youtubeData in
+            if youtubeData.count > 0 {
+                self.dispatch_async_main {
+                    self.playingWebView.scrollView.scrollEnabled = false
+                    self.playingWebView.scrollView.bounces = false
+                    self.playingWebView.loadHTMLString(
+                        self.youtubeConnector.getVideoHtml(youtubeData[0].url,width: 60,height: 60),
+                        baseURL: nil)
+                }                
+            }
+        })
+        
         // 表示中のチューニングを保持
         if self.isAlbumMode == false && self.currentTuningBase == tuningBase {
             // 関連曲の再生曲を選択状態にする
@@ -233,7 +250,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.tunesIndicator.startAnimating()
         self.currentTuningBase = tuningBase
         
-        dispatch_async_global {
+        self.dispatch_async_global {
             // 別スレッド
             println("tuningBase: " + tuningBase)
             // チューニングが同じ曲をテーブルに表示
@@ -282,9 +299,20 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
         self.playingTitleLabel.text = titleString
         self.playingTuningLabel.text = tuning
-        
-        println(self.playingAlbumLabel)
-        println(albumString)
+
+        self.playingWebView.loadHTMLString(
+            self.youtubeConnector.getBlankHtml(60,height: 60),baseURL: nil)
+        self.youtubeConnector.getYoutube(titleString, resultNum: 1, completionHandler: { youtubeData in
+            if youtubeData.count > 0 {
+                self.dispatch_async_main {
+                    self.playingWebView.scrollView.scrollEnabled = false
+                    self.playingWebView.scrollView.bounces = false
+                    self.playingWebView.loadHTMLString(
+                        self.youtubeConnector.getVideoHtml(youtubeData[0].url,width: 60,height: 60),
+                        baseURL: nil)
+                }
+            }
+        })
         
         if self.isAlbumMode && self.playingAlbumLabel.text == albumString{
             // 関連曲の再生曲を選択状態にする

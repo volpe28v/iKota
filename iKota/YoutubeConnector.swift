@@ -1,79 +1,43 @@
 //
-//  YoutubeViewController.swift
+//  YoutubeConnector.swift
 //  iKota
 //
-//  Created by Naoki KODAMA on 2015/01/08.
+//  Created by Naoki KODAMA on 2015/01/10.
 //  Copyright (c) 2015年 Naoki KODAMA. All rights reserved.
 //
 
-import UIKit
 import Foundation
 
-class YoutubeViewController: UITableViewController {
+struct YoutubeInfo {
+    var title: String = ""
+    var url: String = ""
+    var thumbnail: String = ""
+    var author: String = ""
+    var count: String = ""
+}
+
+class YoutubeConnector{
     
     var baseString : String = "http://gdata.youtube.com/feeds/api/videos"
-    var youtubeData: Array<YoutubeInfo> = []
-    var playingTitle: String = ""
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.getYoutube()
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.youtubeData.count
-    }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cellTmp = tableView.dequeueReusableCellWithIdentifier("video") as? UITableViewCell
+    func getYoutube(title: String, resultNum: Int, completionHandler: ((Array<YoutubeInfo>) -> Void)){
+        var youtubeData: Array<YoutubeInfo> = []
         
-        if cellTmp == nil {
-            cellTmp = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "video")
-        }
-        
-        let cell = cellTmp!
-                
-        // Cellに部品を配置
-        var webView = cell.viewWithTag(1) as UIWebView
-        webView.scrollView.scrollEnabled = false
-        webView.scrollView.bounces = false
-        webView.loadHTMLString(self.getVideoHtml(self.youtubeData[indexPath.row].url), baseURL: nil)
-        
-        var title = cell.viewWithTag(2) as UILabel
-        title.text = self.youtubeData[indexPath.row].title
-
-        var author = cell.viewWithTag(3) as UILabel
-        author.text = self.youtubeData[indexPath.row].author
-
-        var count = cell.viewWithTag(4) as UILabel
-        count.text = self.youtubeData[indexPath.row].count
-        
-        return cell
-    }
-    
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-    }
-    
-    func getYoutube(){
-        var params = ["vq": "押尾コータロー " + self.playingTitle
+        var params = ["vq": "押尾コータロー " + title
             ,"orderby": "relevance"
             ,"start-index": "1"
-            ,"max-results": "12"
+            ,"max-results": String(resultNum)
             ,"alt":"json"] as Dictionary<String, String>
         
-
+        
+        println("getYoutube" + title)
+        
         var url = NSURL(string: baseString + buildQueryString(fromDictionary:params))!
         
         var task = NSURLSession.sharedSession().dataTaskWithURL(url, completionHandler: { data, response, error in
             
             var videos = NSJSONSerialization.JSONObjectWithData(data, options: nil,error: nil) as NSDictionary
-
+            
             var feed = videos["feed"] as NSDictionary
             var entries = feed["entry"] as NSArray
             for item in entries {
@@ -103,18 +67,16 @@ class YoutubeViewController: UITableViewController {
                 youtube.thumbnail = thumbnail_url
                 youtube.author = author_name_body
                 youtube.count = viewCount
-                self.youtubeData.append(youtube)
+                youtubeData.append(youtube)
             }
-
-            dispatch_async(dispatch_get_main_queue(),{
-                // ここは mainスレッドの中
-                self.tableView.reloadData()
-            })
+            
+            // コールバック経由で動画情報を返す
+            completionHandler(youtubeData)
         })
         
         task.resume()
     }
-
+    
     func buildQueryString(fromDictionary parameters: [String:String]) -> String {
         var urlVars = [String]()
         for (k, var v) in parameters {
@@ -123,18 +85,18 @@ class YoutubeViewController: UITableViewController {
         }
         return (!urlVars.isEmpty ? "?" : "") + join("&", urlVars)
     }
-
-    func getVideoHtml(urlString: String) -> String{
+    
+    func getVideoHtml(urlString: String, width: Int, height: Int) -> String{
         let videoID = self.getQueryDictionary(urlString)["v"] as String
         
         var htmlString: NSString =
         "<!DOCTYPE html>" +
             "<html>" +
             "<head>" +
-            "<meta name=\"viewport\" content=\"initial-scale=1.0, user-scalable=no, width=110px\">" +
+            "<meta name=\"viewport\" content=\"initial-scale=1.0, user-scalable=no, width=%dpx\">" +
             "</head>" +
             "<body style=\"background:#000000; margin-top:0px; margin-left:0px\">" +
-            "<iframe width=\"110px\" height=\"110px\" " +
+            "<iframe width=\"%dpx\" height=\"%dpx\" " +
             "src=\"http://www.youtube.com/embed/%@?showinfo=0\" " +
             "frameborder=\"0\" " +
             "allowfullscreen> " +
@@ -143,11 +105,30 @@ class YoutubeViewController: UITableViewController {
         "</html>"
         
         let html = NSString(format: htmlString,
+            width,
+            width,
+            height,
             videoID)
-  
+        
         return html
     }
-    
+
+    func getBlankHtml(width: Int, height: Int) -> String{
+        var htmlString: NSString =
+        "<!DOCTYPE html>" +
+            "<html>" +
+            "<head>" +
+            "<meta name=\"viewport\" content=\"initial-scale=1.0, user-scalable=no, width=%dpx\">" +
+            "</head>" +
+            "<body style=\"background:#000000; margin-top:0px; margin-left:0px\">" +
+            "</body>" +
+        "</html>"
+        
+        let html = NSString(format: htmlString, width)
+        
+        return html
+    }
+
     func getQueryDictionary(urlString: String) -> NSDictionary {
         let comp: NSURLComponents? = NSURLComponents(string: urlString)
         
