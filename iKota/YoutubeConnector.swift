@@ -28,7 +28,7 @@ class YoutubeConnector{
             ,"start-index": "1"
             ,"max-results": String(resultNum)
             ,"alt": "json"] as Dictionary<String, String>
-                
+        
         var url = NSURL(string: baseString + buildQueryString(fromDictionary:params))!
         
         var task = NSURLSession.sharedSession().dataTaskWithURL(url, completionHandler: { data, response, error in
@@ -36,37 +36,38 @@ class YoutubeConnector{
             var videos = NSJSONSerialization.JSONObjectWithData(data, options: nil,error: nil) as NSDictionary
             
             var feed = videos["feed"] as NSDictionary
-            var entries = feed["entry"] as NSArray
-            for item in entries {
-                var group = item["media$group"] as NSDictionary
-                var players = group["media$player"] as NSArray
-                var player = players[0] as NSDictionary
-                var url = player["url"] as String
+            if let entries = feed["entry"] as NSArray? {
+                for item in entries {
+                    var group = item["media$group"] as NSDictionary
+                    var players = group["media$player"] as NSArray
+                    var player = players[0] as NSDictionary
+                    var url = player["url"] as String
                 
-                var thumbnails = group["media$thumbnail"] as NSArray
-                var thumbnail = thumbnails[0] as NSDictionary
-                var thumbnail_url = thumbnail["url"] as String
+                    var thumbnails = group["media$thumbnail"] as NSArray
+                    var thumbnail = thumbnails[0] as NSDictionary
+                    var thumbnail_url = thumbnail["url"] as String
                 
-                var title = item["title"] as NSDictionary
-                var title_body = title["$t"] as String
+                    var title = item["title"] as NSDictionary
+                    var title_body = title["$t"] as String
                 
-                var authors = item["author"] as NSArray
-                var author = authors[0] as NSDictionary
-                var author_name = author["name"] as NSDictionary
-                var author_name_body = author_name["$t"] as String
+                    var authors = item["author"] as NSArray
+                    var author = authors[0] as NSDictionary
+                    var author_name = author["name"] as NSDictionary
+                    var author_name_body = author_name["$t"] as String
                 
-                var statistics = item["yt$statistics"] as NSDictionary
-                var viewCount = statistics["viewCount"] as String
+                    var statistics = item["yt$statistics"] as NSDictionary
+                    var viewCount = statistics["viewCount"] as String
                 
-                var youtube = YoutubeInfo()
-                youtube.title = title_body
-                youtube.url = url
-                youtube.thumbnail = thumbnail_url
-                youtube.author = author_name_body
-                youtube.count = viewCount
-                youtubeData.append(youtube)
+                    var youtube = YoutubeInfo()
+                    youtube.title = title_body
+                    youtube.url = url
+                    youtube.thumbnail = thumbnail_url
+                    youtube.author = author_name_body
+                    youtube.count = viewCount
+                    youtubeData.append(youtube)
+                }
             }
-            
+
             // コールバック経由で動画情報を返す
             completionHandler(youtubeData)
         })
@@ -117,7 +118,7 @@ class YoutubeConnector{
             "<head>" +
             "<meta name=\"viewport\" content=\"initial-scale=1.0, user-scalable=no, width=%dpx\">" +
             "</head>" +
-            "<body style=\"background:#000000; margin-top:0px; margin-left:0px\">" +
+            "<body style=\"background:white; margin-top:0px; margin-left:0px\">" +
             "</body>" +
         "</html>"
         
