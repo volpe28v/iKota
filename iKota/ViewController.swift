@@ -16,7 +16,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var ncenter : NSNotificationCenter!
     var tuneCollection : TuneCollection! = TuneCollection()
     var relateItems : Array<AnyObject>!
-    var currentTuningBase : String! = ""
+    var playingTuningBase : String! = ""
+    var playingAlbum : String! = ""
     var playingRelateIndex : Int!
     var isAlbumMode : Bool = false
     var youtubeConnector : YoutubeConnector! = YoutubeConnector()
@@ -167,34 +168,40 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // 再生曲が変わったら呼ばれるハンドラ
     func handle_NowPlayingItemChanged(){
-        if self.isAlbumMode {
-            self.updateTunelistForAlbum()
-        }else{
-            self.updateTunelist()
-        }
+        self.changeTune()
     }
     
-    func updateTunelist(){
+    func changeTune(){
+        // 再生中の曲情報を取得
         let item = player.nowPlayingItem as MPMediaItem
-        
-        // 再生中の曲情報を表示
         var titleString: String = item.valueForProperty(MPMediaItemPropertyTitle) as String
         var albumString: String = item.valueForProperty(MPMediaItemPropertyAlbumTitle) as String
         var tuning: String = self.tuneCollection.getTuningByTune(titleString, album: albumString)
         var tuningBase: String = self.tuneCollection.getTuningBaseByTune(titleString, album: albumString)
-
-        println(titleString)
-
-        if let image = self.playingImageView {
-            let artwork = item.valueForProperty(MPMediaItemPropertyArtwork) as MPMediaItemArtwork
-            // 90x90 にすると落ちるので 80x80にしている
-            let aw_image = artwork.imageWithSize(CGSizeMake(80,80)) as UIImage
-            
-            image.image = aw_image
+        
+        if self.isAlbumMode {
+            if self.playingAlbum == albumString{
+                self.focusPlayingTuneInTunelist()
+            }else{
+                self.updateTunelistForAlbum()
+            }
+        }else{
+            if self.playingTuningBase == tuningBase {
+                self.focusPlayingTuneInTunelist()
+            }else{
+                self.updateTunelistForTuning()
+            }
         }
+        
+        // 再生中の情報を更新
+        self.playingTuningBase = tuningBase
+        self.playingAlbum = albumString
+        
+        let artwork = item.valueForProperty(MPMediaItemPropertyArtwork) as MPMediaItemArtwork
+        let aw_image = artwork.imageWithSize(CGSizeMake(80,80)) as UIImage // 90x90 にすると落ちるので 80x80にしている
+        self.playingImageView?.image = aw_image
         self.playingTitleLabel.text = titleString
         self.playingTuningLabel.text = tuning
-        self.playingAlbumLabel.text = albumString
         
         self.playingWebView.loadHTMLString(
             self.youtubeConnector.getBlankHtml(60,height: 60),baseURL: nil)
@@ -206,51 +213,43 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     self.playingWebView.loadHTMLString(
                         self.youtubeConnector.getVideoHtml(youtubeData[0].url,width: 60,height: 60),
                         baseURL: nil)
-                }                
+                }
             }
         })
-        
-        // 表示中のチューニングを保持
-        if self.isAlbumMode == false && self.currentTuningBase == tuningBase {
-            // 関連曲の再生曲を選択状態にする
-            let selectedIndex = self.tunesTable.indexPathForSelectedRow()
-            if (selectedIndex != nil){
-                println(selectedIndex?.row)
-                var nextRow:Int = player.indexOfNowPlayingItem + self.playingRelateIndex
-                let currentIndexPath = NSIndexPath(forRow:nextRow, inSection:0)
-                self.tunesTable.selectRowAtIndexPath(currentIndexPath, animated: true, scrollPosition: UITableViewScrollPosition.Middle)
-            }
-            return
-        }
+    }
 
-        self.isAlbumMode = false
+    func focusPlayingTuneInTunelist(){
+        let selectedIndex = self.tunesTable.indexPathForSelectedRow()
+        if (selectedIndex != nil){
+            var nextRow:Int = player.indexOfNowPlayingItem + self.playingRelateIndex
+            if nextRow >= self.relateItems.count {
+                nextRow -= self.relateItems.count
+            }
+            let currentIndexPath = NSIndexPath(forRow:nextRow, inSection:0)
+            self.tunesTable.selectRowAtIndexPath(currentIndexPath, animated: true, scrollPosition: UITableViewScrollPosition.Middle)
+        }
+    }
         
+    func updateTunelistForTuning() {
         // テーブルをクリア
         self.relateItems = []
         self.tunesTable.reloadData()
         self.tunesIndicator.startAnimating()
-        self.currentTuningBase = tuningBase
         
         self.dispatch_async_global {
             // 別スレッド
-            println("tuningBase: " + tuningBase)
             // チューニングが同じ曲をテーブルに表示
             var target_items = Array<AnyObject>()
             for item : AnyObject in self.query.items{
-                if self.currentTuningBase != tuningBase {
-                    println("tuning changed! :" + tuningBase + " -> " + self.currentTuningBase)
-                    return
-                }
                 var titleString: String = item.valueForProperty(MPMediaItemPropertyTitle) as String
                 var albumString: String = item.valueForProperty(MPMediaItemPropertyAlbumTitle) as String
-                if self.tuneCollection.isTuning(tuningBase, title: titleString, album: albumString){
+                if self.tuneCollection.isTuning(self.playingTuningBase, title: titleString, album: albumString){
                     target_items.append(item)
                 }
             }
             
             self.dispatch_async_main {
                 // UIスレッド
-                println("show:" + tuningBase)
                 self.relateItems = target_items
                 
                 // テーブルを更新
@@ -261,81 +260,24 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func updateTunelistForAlbum(){
-        let item = player.nowPlayingItem as MPMediaItem
-        
-        // 再生中の曲情報を表示
-        var titleString: String = item.valueForProperty(MPMediaItemPropertyTitle) as String
-        var albumString: String = item.valueForProperty(MPMediaItemPropertyAlbumTitle) as String
-        var tuning: String = self.tuneCollection.getTuningByTune(titleString, album: albumString)
-        var tuningBase: String = self.tuneCollection.getTuningBaseByTune(titleString, album: albumString)
-        
-        println(titleString)
-        
-        if let image = self.playingImageView {
-            let artwork = item.valueForProperty(MPMediaItemPropertyArtwork) as MPMediaItemArtwork
-            // 90x90 にすると落ちるので 80x80にしている
-            let aw_image = artwork.imageWithSize(CGSizeMake(80,80)) as UIImage
-            
-            image.image = aw_image
-        }
-        self.playingTitleLabel.text = titleString
-        self.playingTuningLabel.text = tuning
-
-        self.playingWebView.loadHTMLString(
-            self.youtubeConnector.getBlankHtml(60,height: 60),baseURL: nil)
-        self.youtubeConnector.getYoutube(titleString, resultNum: 1, completionHandler: { youtubeData in
-            if youtubeData.count > 0 {
-                self.dispatch_async_main {
-                    self.playingWebView.scrollView.scrollEnabled = false
-                    self.playingWebView.scrollView.bounces = false
-                    self.playingWebView.loadHTMLString(
-                        self.youtubeConnector.getVideoHtml(youtubeData[0].url,width: 60,height: 60),
-                        baseURL: nil)
-                }
-            }
-        })
-        
-        if self.isAlbumMode && self.playingAlbumLabel.text == albumString{
-            // 関連曲の再生曲を選択状態にする
-            let selectedIndex = self.tunesTable.indexPathForSelectedRow()
-            if (selectedIndex != nil){
-                println(selectedIndex?.row)
-                var nextRow:Int = player.indexOfNowPlayingItem + self.playingRelateIndex
-                let currentIndexPath = NSIndexPath(forRow:nextRow, inSection:0)
-                self.tunesTable.selectRowAtIndexPath(currentIndexPath, animated: true, scrollPosition: UITableViewScrollPosition.Middle)
-            }
-            return
-        }
-        
-        self.isAlbumMode = true
-        self.playingAlbumLabel.text = albumString
-        
         // テーブルをクリア
         self.relateItems = []
         self.tunesTable.reloadData()
         self.tunesIndicator.startAnimating()
-        self.currentTuningBase = tuningBase
         
         dispatch_async_global {
-            // 別スレッド
-            println("tuningBase: " + tuningBase)
-            // チューニングが同じ曲をテーブルに表示
+            // アルバムが同じ曲をテーブルに表示
             var target_items = Array<AnyObject>()
             for item : AnyObject in self.query.items{
-                if self.currentTuningBase != tuningBase {
-                    println("tuning changed! :" + tuningBase + " -> " + self.currentTuningBase)
-                    return
-                }
                 var titleString: String = item.valueForProperty(MPMediaItemPropertyTitle) as String
                 var itemAlbumString: String = item.valueForProperty(MPMediaItemPropertyAlbumTitle) as String
-                if itemAlbumString == albumString {
+                if itemAlbumString == self.playingAlbum {
                     target_items.append(item)
                 }
             }
             
             self.dispatch_async_main {
                 // UIスレッド
-                println("show:" + tuningBase)
                 self.relateItems = target_items
                 
                 // テーブルを更新
@@ -343,9 +285,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 self.tunesTable.reloadData()
             }
         }
-        
     }
-
+    
     // 再生状態が変わったら呼ばれるハンドラ
     func handle_PlaybackStateDidChanged(){
         self.setCurrentPlayOrStopButtonLabel()
@@ -379,10 +320,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     @IBAction func onClickTuningButton(sender: AnyObject) {
-        self.updateTunelist()
+        self.isAlbumMode = false
+        self.updateTunelistForTuning()
     }
 
     @IBAction func onClickAlbumButton(sender: AnyObject) {
+        self.isAlbumMode = true
         self.updateTunelistForAlbum()
     }
     
