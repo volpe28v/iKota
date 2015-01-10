@@ -14,12 +14,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var player : MPMusicPlayerController!
     var query : MPMediaQuery!
     var ncenter : NSNotificationCenter!
-    var tuneCollection : TuneCollection!
+    var tuneCollection : TuneCollection! = TuneCollection()
     var relateItems : Array<AnyObject>!
-    var currentTuningBase : String!
+    var currentTuningBase : String! = ""
     var playingRelateIndex : Int!
-    var isAlbumMode : Bool
-    var youtubeConnector : YoutubeConnector!
+    var isAlbumMode : Bool = false
+    var youtubeConnector : YoutubeConnector! = YoutubeConnector()
+
 
 //    var avplayer : AVAudioPlayer!
     
@@ -31,20 +32,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     @IBOutlet weak var tunesTable: UITableView!
     @IBOutlet weak var tunesIndicator: UIActivityIndicatorView!
-    
-    
+
     @IBOutlet weak var playOrStopButton: UIBarButtonItem!
     
-    override init() {
-        self.isAlbumMode = false
-        super.init()
-    }
-    
-    required init(coder aDecoder: NSCoder) {
-        self.isAlbumMode = false
-        super.init(coder: aDecoder)
-    }
-
     func dispatch_async_global(block: () -> ()) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), block)
     }
@@ -70,21 +60,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
 
         self.tunesTable.dataSource = self;
         self.tunesTable.delegate = self;
 
-        self.currentTuningBase = ""
-        
-        // 曲情報を取得
-        self.tuneCollection = TuneCollection()
-        
         // 押尾コータローの全曲を取得して登録
         self.player = MPMusicPlayerController.iPodMusicPlayer()
         self.query = MPMediaQuery.artistsQuery()
-        var pred : MPMediaPropertyPredicate!
-        pred = MPMediaPropertyPredicate(value:"押尾コータロー", forProperty:MPMediaItemPropertyArtist)
+        var pred : MPMediaPropertyPredicate! = MPMediaPropertyPredicate(value:"押尾コータロー", forProperty:MPMediaItemPropertyArtist)
         self.query.addFilterPredicate(pred)
         
         // 再生変更通知を登録
@@ -104,8 +87,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         self.player.beginGeneratingPlaybackNotifications()
         self.setCurrentPlayOrStopButtonLabel()
-
-        self.youtubeConnector = YoutubeConnector()
     }
 
     override func didReceiveMemoryWarning() {

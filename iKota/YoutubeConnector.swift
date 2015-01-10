@@ -27,11 +27,8 @@ class YoutubeConnector{
             ,"orderby": "relevance"
             ,"start-index": "1"
             ,"max-results": String(resultNum)
-            ,"alt":"json"] as Dictionary<String, String>
-        
-        
-        println("getYoutube" + title)
-        
+            ,"alt": "json"] as Dictionary<String, String>
+                
         var url = NSURL(string: baseString + buildQueryString(fromDictionary:params))!
         
         var task = NSURLSession.sharedSession().dataTaskWithURL(url, completionHandler: { data, response, error in
