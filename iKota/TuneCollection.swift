@@ -7,23 +7,102 @@
 //
 
 import Foundation
+import MediaPlayer
 
-class TuneCollection {
-    class Tune {
-        var title: String?
-        var album: String?
-        var tuning: String?
-        var capo: Int?
-        
-        init(album: String, title: String, tuning: String, capo: Int){
-            self.album = album
-            self.title = title
-            self.tuning = tuning
-            self.capo = capo
+class Tune {
+    var title: String
+    var album: String
+    var tuning: String
+    var capo: Int
+    var pitches: [Int] = []
+    var item: AnyObject?
+    
+    init(album: String, title: String, tuning: String, capo: Int){
+        self.album = album
+        self.title = title
+        self.tuning = tuning
+        self.capo = capo
+        self.pitches = self.parseTuning(tuning)
+    }
+    
+    // チューニング + capo を取得
+    func getTuningName() -> String {
+        if self.capo == 0 {
+            return self.tuning
+        }else{
+            return self.tuning + " " + String(self.capo) + "capo"
         }
     }
     
-    var tunes: [Tune]
+    //音程を数字に変換
+    func convPitchToInt(pitch: String) -> Int {
+        switch pitch {
+        case "C" :
+            return 0
+        case "C#", "Db" :
+            return 1
+        case "D" :
+            return 2
+        case "D#", "Eb" :
+            return 3
+        case "E" :
+            return 4
+        case "F" :
+            return 5
+        case "F#","Gb" :
+            return 6
+        case "G" :
+            return 7
+        case "G#","Ab" :
+            return 8
+        case "A" :
+            return 9
+        case "A#","Bb" :
+            return 10
+        case "B" :
+            return 11
+        default :
+            return 99
+        }
+    }
+    
+    // チューニングの類似度を求めるプログラム
+    func parseTuning(source : String) -> [Int]{
+        // parseする。分割して配列に入れる
+        var source_array : [Int] = []
+        var length = countElements(source)
+        
+        var pre_pitch: String = ""
+        for ( var i = 0; i < length; i++){
+            var current_pitch: Character = source[advance(source.startIndex, i)]
+            // #かbの場合は含めて確定する
+            if (current_pitch == "#" || current_pitch == "b"){
+                var pitchString: String = source[Range(start: advance(source.startIndex, i-1),end: advance(source.startIndex, i+1))]
+                source_array.append(convPitchToInt(pitchString))
+            }else{
+                if (i > 0){
+                    var pre_pitch: Character = source[advance(source.startIndex, i-1)]
+                    if (pre_pitch != "#" && pre_pitch != "b")
+                    {
+                        var pitchString: String = source[Range(start: advance(source.startIndex, i-1),end: advance(source.startIndex, i))]
+                        source_array.append(convPitchToInt(pitchString))
+                    }
+                    
+                    if (i == length - 1){
+                        var pitchString: String = source[Range(start: advance(source.startIndex, i),end: advance(source.startIndex, i+1))]
+                        source_array.append(convPitchToInt(pitchString))
+                    }
+                }
+            }
+        }
+        return source_array
+    }
+}
+
+class TuneCollection {
+    
+    var tunes: [Tune] = []
+    var activeTunes: [Tune] = []
     
     init(){
         self.tunes = []
@@ -273,6 +352,29 @@ class TuneCollection {
         return ["Standard","DADGAD"]
     }
     
+    func registItem(item : AnyObject) -> Bool {
+        var titleString: String = item.valueForProperty(MPMediaItemPropertyTitle) as String
+        var albumString: String = item.valueForProperty(MPMediaItemPropertyAlbumTitle) as String
+        
+        for tune : Tune in self.tunes{
+            if tune.title == titleString && tune.album == albumString {
+                tune.item = item
+                self.activeTunes.append(tune)
+                return true
+            }
+        }
+        return false
+    }
+    
+    func getTuneByItem(item : AnyObject) -> Tune?{
+        for tune : Tune in self.activeTunes{
+            if tune.item === item {
+                return tune
+            }
+        }
+        return nil
+    }
+    
     func isTuning(tuning: String, title: String, album: String) -> Bool{
         if tuning == "" {
             return false
@@ -290,10 +392,10 @@ class TuneCollection {
         for tune : Tune in self.tunes{
             if tune.title == title && tune.album == album {
                 if tune.capo == 0 {
-                    return tune.tuning!
+                    return tune.tuning
                     
                 }else{
-                    return tune.tuning! + " " + String(tune.capo!) + "capo"
+                    return tune.tuning + " " + String(tune.capo) + "capo"
                 }
             }
         }
@@ -304,7 +406,7 @@ class TuneCollection {
     func getTuningBaseByTune(title: String, album: String) -> String{
         for tune : Tune in self.tunes{
             if tune.title == title && tune.album == album {
-                return tune.tuning!
+                return tune.tuning
             }
         }
         return ""
@@ -316,10 +418,38 @@ class TuneCollection {
         var tuning = self.getTuningBaseByTune(title, album: album)
         for tune : Tune in self.tunes{
             if tune.tuning == tuning && tune.title != title {
-                tunes.append(tune.title!)
+                tunes.append(tune.title)
             }
         }
         
         return tunes
     }
+
+    /*
+    func compareTuning(source: String, target: String) -> Int
+    {
+        
+        // それぞれ比較
+        var sourcePitches = parseTuning(source)
+        var targetPitches = parseTuning(target)
+        
+        // 結果を判断
+        var result : [Int] = [0,0,0,0,0,0]
+        var score = 0
+        var sameDistance = true
+        for i in 0..<6 {
+            result[i] = targetPitches[i] - sourcePitches[i]
+            score += abs(result[i])
+            if (i > 0 && result[i-1] != result[i]){
+                sameDistance = false
+            }
+        }
+        
+        if (sameDistance){
+            score = abs(result[0])
+        }
+        return score
+    }
+*/
+
 }
