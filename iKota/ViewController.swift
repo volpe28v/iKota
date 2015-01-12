@@ -164,8 +164,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath:NSIndexPath!) {
+        var tuneItems = Array<AnyObject>()
         if indexPath.section == 0 {
-            var tuneItems = Array<AnyObject>()
             for (i,tune : Tune) in enumerate(self.relateTunes as Array){
                 if (i < indexPath.row){
                     tuneItems.append(tune.item!)
@@ -186,14 +186,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             */
             
             self.playingRelateIndex = indexPath.row
-            var items = MPMediaItemCollection(items: tuneItems)
-            self.player.setQueueWithItemCollection(items)
-            self.player.shuffleMode = MPMusicShuffleMode.Off
-            self.player.repeatMode = MPMusicRepeatMode.All       //全曲でリピート
-            self.player.play()
         }else{
-            
+            var tune = self.similarTunes[indexPath.row]
+            tuneItems.insert(tune.item!,atIndex: 0)
         }
+        
+        // リストを再生
+        var items = MPMediaItemCollection(items: tuneItems)
+        self.player.setQueueWithItemCollection(items)
+        self.player.shuffleMode = MPMusicShuffleMode.Off
+        self.player.repeatMode = MPMusicRepeatMode.All       //全曲でリピート
+        self.player.play()
         
     }
     
