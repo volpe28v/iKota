@@ -34,6 +34,30 @@ class Tune {
         }
     }
     
+    func compareTuning(target: Tune) -> Int
+    {
+        if (self.pitches.count != 6 || target.pitches.count != 6) {
+            return 100
+        }
+        
+        // 結果を判断
+        var result : [Int] = [0,0,0,0,0,0]
+        var score = 0
+        var sameDistance = true
+        for i in 0..<6 {
+            result[i] = target.pitches[i] - self.pitches[i]
+            score += abs(result[i])
+            if (i > 0 && result[i-1] != result[i]){
+                sameDistance = false
+            }
+        }
+        
+        if (sameDistance){
+            score = abs(result[0])
+        }
+        return score
+    }
+
     //音程を数字に変換
     func convPitchToInt(pitch: String) -> Int {
         switch pitch {
@@ -68,9 +92,14 @@ class Tune {
     
     // チューニングの類似度を求めるプログラム
     func parseTuning(source : String) -> [Int]{
+        var baseTuning = source
+        if baseTuning == "Standard" {
+            baseTuning = "EADGBE"
+        }
+        
         // parseする。分割して配列に入れる
         var source_array : [Int] = []
-        var length = countElements(source)
+        var length = countElements(baseTuning)
         
         var pre_pitch: String = ""
         for ( var i = 0; i < length; i++){

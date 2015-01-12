@@ -15,13 +15,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var query : MPMediaQuery!
     var ncenter : NSNotificationCenter!
     var tuneCollection : TuneCollection! = TuneCollection()
-    var relateTunes : Array<Tune>!
-    var playingTuningBase : String! = ""
-    var playingAlbum : String! = ""
+    var relateTunes : Array<Tune>! = []
+    var similarTunes : Array<Tune>! = []
+    var playingTune : Tune? = nil
     var playingRelateIndex : Int!
     var isAlbumMode : Bool = false
     var youtubeConnector : YoutubeConnector! = YoutubeConnector()
-
+    var sections: Array<String> = ["Same Tuning", "Similar Tuning"]
 
 //    var avplayer : AVAudioPlayer!
     
@@ -103,12 +103,23 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Dispose of any resources that can be recreated.
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if (self.relateTunes != nil) {
-            return self.relateTunes.count
+    func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
+        if self.similarTunes.count == 0 {
+            return 1;
+        }else{
+            return sections.count
         }
-        else{
-            return 0
+    }
+    
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sections[section] as String
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return self.relateTunes.count
+        }else{
+            return self.similarTunes.count
         }
     }
     
@@ -125,10 +136,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         let cell = cellTmp!
         
-        let item = self.relateTunes[indexPath.row].item as MPMediaItem
-        var titleString: String = item.valueForProperty(MPMediaItemPropertyTitle) as String
-        var albumString: String = item.valueForProperty(MPMediaItemPropertyAlbumTitle) as String
-        var tuningString: String = self.tuneCollection.getTuningByTune(titleString, album: albumString)
+        var tune : Tune? = nil
+        if indexPath.section == 0 {
+            tune = self.relateTunes[indexPath.row]
+        }else {
+            tune = self.similarTunes[indexPath.row]
+        }
+        
+        let item = tune!.item as MPMediaItem
+        var titleString: String = tune!.title
+        var albumString: String = tune!.album
+        var tuningString: String = tune!.getTuningName()
 
         // Cellに部品を配置
         var artwork = item.valueForProperty(MPMediaItemPropertyArtwork) as MPMediaItemArtwork
@@ -146,32 +164,37 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath:NSIndexPath!) {
-        var tuneItems = Array<AnyObject>()
-        for (i,tune : Tune) in enumerate(self.relateTunes as Array){
-            if (i < indexPath.row){
-                tuneItems.append(tune.item!)
-            }else if (i == indexPath.row){
-                tuneItems.insert(tune.item!,atIndex: 0)
-            }else{
-                tuneItems.insert(tune.item!,atIndex: tuneItems.count - indexPath.row)
+        if indexPath.section == 0 {
+            var tuneItems = Array<AnyObject>()
+            for (i,tune : Tune) in enumerate(self.relateTunes as Array){
+                if (i < indexPath.row){
+                    tuneItems.append(tune.item!)
+                }else if (i == indexPath.row){
+                    tuneItems.insert(tune.item!,atIndex: 0)
+                }else{
+                    tuneItems.insert(tune.item!,atIndex: tuneItems.count - indexPath.row)
+                }
             }
+            
+            /* // 再生速度を変更するコード
+            let item: MPMediaItem = self.relateItems[indexPath.row] as MPMediaItem
+            let url: NSURL = item.valueForProperty(MPMediaItemPropertyAssetURL) as NSURL
+            self.avplayer = AVAudioPlayer(contentsOfURL: url, error:nil)
+            self.avplayer.enableRate = true
+            self.avplayer.rate = 0.75
+            self.avplayer.play()
+            */
+            
+            self.playingRelateIndex = indexPath.row
+            var items = MPMediaItemCollection(items: tuneItems)
+            self.player.setQueueWithItemCollection(items)
+            self.player.shuffleMode = MPMusicShuffleMode.Off
+            self.player.repeatMode = MPMusicRepeatMode.All       //全曲でリピート
+            self.player.play()
+        }else{
+            
         }
         
-        /* // 再生速度を変更するコード
-        let item: MPMediaItem = self.relateItems[indexPath.row] as MPMediaItem
-        let url: NSURL = item.valueForProperty(MPMediaItemPropertyAssetURL) as NSURL
-        self.avplayer = AVAudioPlayer(contentsOfURL: url, error:nil)
-        self.avplayer.enableRate = true
-        self.avplayer.rate = 0.75
-        self.avplayer.play()
-        */
-        
-        self.playingRelateIndex = indexPath.row
-        var items = MPMediaItemCollection(items: tuneItems)
-        self.player.setQueueWithItemCollection(items)
-        self.player.shuffleMode = MPMusicShuffleMode.Off
-        self.player.repeatMode = MPMusicRepeatMode.All       //全曲でリピート
-        self.player.play()
     }
     
     // 再生曲が変わったら呼ばれるハンドラ
@@ -189,24 +212,31 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             var tuning: String = self.tuneCollection.getTuningByTune(titleString, album: albumString)
             var tuningBase: String = self.tuneCollection.getTuningBaseByTune(titleString, album: albumString)
             
+            var preAlbum = ""
+            var preTuning = ""
+            if let pt = self.playingTune {
+                preAlbum = pt.album
+                preTuning = pt.tuning
+            }
+            
+            // 再生中の情報を更新
+            self.playingTune = t
+
             if self.isAlbumMode {
-                if self.playingAlbum == albumString{
+                if preAlbum == albumString{
                     self.focusPlayingTuneInTunelist()
                 }else{
                     self.updateTunelistForAlbum()
                 }
             }else{
-                if self.playingTuningBase == tuningBase {
+                if preTuning == tuningBase {
                     self.focusPlayingTuneInTunelist()
                 }else{
                     self.updateTunelistForTuning()
                 }
             }
             
-            // 再生中の情報を更新
-            self.playingTuningBase = tuningBase
-            self.playingAlbum = albumString
-            
+
             let artwork = item.valueForProperty(MPMediaItemPropertyArtwork) as MPMediaItemArtwork
             let aw_image = artwork.imageWithSize(CGSizeMake(80,80)) as UIImage // 90x90 にすると落ちるので 80x80にしている
             self.playingImageView?.image = aw_image
@@ -249,22 +279,34 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func updateTunelistForTuning() {
         // テーブルをクリア
         self.relateTunes = []
+        self.similarTunes = []
         self.tunesTable.reloadData()
         self.tunesIndicator.startAnimating()
+        
+        self.sections[0] = "Same Tuning"
         
         self.dispatch_async_global {
             // 別スレッド
             // チューニングが同じ曲をテーブルに表示
             var targetTunes = Array<Tune>()
             for tune : Tune in self.tuneCollection.activeTunes {
-                if self.playingTuningBase == tune.tuning {
+                if self.playingTune!.tuning == tune.tuning {
                     targetTunes.append(tune)
+                }
+            }
+            
+            var targetSimilarTunes = Array<Tune>()
+            for tune : Tune in self.tuneCollection.activeTunes {
+                let score = self.playingTune!.compareTuning(tune)
+                if score >= 1 && score <= 3 {
+                    targetSimilarTunes.append(tune)
                 }
             }
             
             self.dispatch_async_main {
                 // UIスレッド
                 self.relateTunes = targetTunes
+                self.similarTunes = targetSimilarTunes
                 
                 // テーブルを更新
                 self.tunesIndicator.stopAnimating()
@@ -276,14 +318,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func updateTunelistForAlbum(){
         // テーブルをクリア
         self.relateTunes = []
+        self.similarTunes = []
         self.tunesTable.reloadData()
         self.tunesIndicator.startAnimating()
         
+        self.sections[0] = "Album"
+
         dispatch_async_global {
             // アルバムが同じ曲をテーブルに表示
             var targetTunes = Array<Tune>()
             for tune : Tune in self.tuneCollection.activeTunes {
-                if tune.album == self.playingAlbum {
+                if tune.album == self.playingTune!.album {
                     targetTunes.append(tune)
                 }
             }
