@@ -286,8 +286,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.tunesTable.reloadData()
         self.tunesIndicator.startAnimating()
         
-        self.sections[0] = "Same Tuning"
-        
         self.dispatch_async_global {
             // 別スレッド
             // チューニングが同じ曲をテーブルに表示
@@ -310,12 +308,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 // UIスレッド
                 self.relateTunes = targetTunes
                 self.similarTunes = targetSimilarTunes
-                
+                self.sections[0] = self.makeSectionText("Same Tuning - ", count: self.relateTunes.count)
+                self.sections[1] = self.makeSectionText("Similar Tuning - ", count: self.similarTunes.count)
+
                 // テーブルを更新
                 self.tunesIndicator.stopAnimating()
                 self.tunesTable.reloadData()
             }
         }
+    }
+    
+    func makeSectionText(prefix: String, count: Int) -> String{
+        var suffix : String = count <= 1 ? " tune" : " tunes"
+        return prefix + String(count) + suffix
     }
     
     func updateTunelistForAlbum(){
@@ -325,8 +330,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.tunesTable.reloadData()
         self.tunesIndicator.startAnimating()
         
-        self.sections[0] = "Album"
-
         dispatch_async_global {
             // アルバムが同じ曲をテーブルに表示
             var targetTunes = Array<Tune>()
@@ -339,6 +342,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             self.dispatch_async_main {
                 // UIスレッド
                 self.relateTunes = targetTunes
+                self.sections[0] = self.makeSectionText("Album - ", count: self.relateTunes.count)
                 
                 // テーブルを更新
                 self.tunesIndicator.stopAnimating()
