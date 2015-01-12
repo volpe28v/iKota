@@ -408,5 +408,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
     
+    @IBAction func onClickAlbumsButton(sender: AnyObject) {
+        performSegueWithIdentifier("search", sender: nil)
+    }
 }
 

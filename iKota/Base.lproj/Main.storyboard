@@ -204,6 +204,11 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" title="PlayList" id="rKa-U4-7B9">
+                        <barButtonItem key="leftBarButtonItem" systemItem="search" id="dlO-qQ-pE6">
+                            <connections>
+                                <action selector="onClickAlbumsButton:" destination="s1j-1C-fPF" id="Dvp-7a-2Nx"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Youtube" id="tVx-NG-UiR">
                             <connections>
                                 <action selector="onClickYoutubeButton:" destination="s1j-1C-fPF" id="Rrb-rk-XhX"/>
@@ -220,11 +225,42 @@
                         <outlet property="tunesIndicator" destination="evc-zH-W4O" id="djF-Jo-BjQ"/>
                         <outlet property="tunesTable" destination="2pM-Qo-iAH" id="tzV-Qb-l7C"/>
                         <segue destination="yBB-pf-U2p" kind="show" identifier="youtube" id="PC7-Mg-6Ff"/>
+                        <segue destination="Jw0-aD-28L" kind="show" identifier="search" id="9VY-6H-1ks"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mmE-J8-lV2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="685" y="444"/>
+        </scene>
+        <!--Search-->
+        <scene sceneID="aXM-n4-3Gs">
+            <objects>
+                <tableViewController title="Search" id="Jw0-aD-28L" customClass="SearchViewController" customModule="iKota" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="4ye-jN-FbZ">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="H5U-Q4-xAx">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="H5U-Q4-xAx" id="I1x-lh-Sm9">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Jw0-aD-28L" id="jg4-mW-hch"/>
+                            <outlet property="delegate" destination="Jw0-aD-28L" id="yzP-RV-qbA"/>
+                        </connections>
+                    </tableView>
+                    <toolbarItems>
+                        <barButtonItem title="Item" id="c9Z-Rs-OKp"/>
+                    </toolbarItems>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pcT-gz-mR9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="17" y="1159"/>
         </scene>
         <!--Youtube-->
         <scene sceneID="W3D-sj-BaI">

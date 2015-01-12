@@ -14,6 +14,7 @@
 		0714BC141A58A2EE006FBF8D /* iKotaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0714BC131A58A2EE006FBF8D /* iKotaTests.swift */; };
 		0714BC201A58A6C0006FBF8D /* TuneCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0714BC1F1A58A6C0006FBF8D /* TuneCollection.swift */; };
 		07229DA91A60DF5D00D7E1A0 /* YoutubeConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07229DA81A60DF5D00D7E1A0 /* YoutubeConnector.swift */; };
+		0723D80E1A64221900641F64 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0723D80D1A64221900641F64 /* SearchViewController.swift */; };
 		07319CE71A5EBEA6009C0229 /* YoutubeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07319CE61A5EBEA6009C0229 /* YoutubeViewController.swift */; };
 		076713FE1A6137F2007A881F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0714BBFF1A58A2ED006FBF8D /* ViewController.swift */; };
 /* End PBXBuildFile section */
@@ -41,6 +42,7 @@
 		0714BC131A58A2EE006FBF8D /* iKotaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iKotaTests.swift; sourceTree = "<group>"; };
 		0714BC1F1A58A6C0006FBF8D /* TuneCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TuneCollection.swift; sourceTree = "<group>"; };
 		07229DA81A60DF5D00D7E1A0 /* YoutubeConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoutubeConnector.swift; sourceTree = "<group>"; };
+		0723D80D1A64221900641F64 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		07319CE61A5EBEA6009C0229 /* YoutubeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoutubeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -89,6 +91,7 @@
 				07319CE61A5EBEA6009C0229 /* YoutubeViewController.swift */,
 				07229DA81A60DF5D00D7E1A0 /* YoutubeConnector.swift */,
 				0714BC011A58A2EE006FBF8D /* Main.storyboard */,
+				0723D80D1A64221900641F64 /* SearchViewController.swift */,
 				0714BC041A58A2EE006FBF8D /* Images.xcassets */,
 				0714BC061A58A2EE006FBF8D /* LaunchScreen.xib */,
 				0714BBFB1A58A2ED006FBF8D /* Supporting Files */,
@@ -221,6 +224,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0723D80E1A64221900641F64 /* SearchViewController.swift in Sources */,
 				076713FE1A6137F2007A881F /* ViewController.swift in Sources */,
 				07319CE71A5EBEA6009C0229 /* YoutubeViewController.swift in Sources */,
 				0714BBFE1A58A2ED006FBF8D /* AppDelegate.swift in Sources */,
