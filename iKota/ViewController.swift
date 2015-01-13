@@ -376,9 +376,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     @IBAction func onClickShuffleButton(sender: AnyObject) {
-        
-        self.player.setQueueWithQuery(query)
-        self.player.shuffleMode = MPMusicShuffleMode.Songs   //全曲でシャッフル
+        var targetItems = Array<AnyObject>()
+        for tune : Tune in self.tuneCollection.activeTunes {
+            targetItems.append(tune.item!)
+        }
+
+        var items = MPMediaItemCollection(items: targetItems)
+        self.player.setQueueWithItemCollection(items)
+        self.player.shuffleMode = MPMusicShuffleMode.Songs
         self.player.repeatMode = MPMusicRepeatMode.All       //全曲でリピート
         self.player.play()
     }

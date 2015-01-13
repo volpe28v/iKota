@@ -108,7 +108,7 @@
                                 <rect key="frame" x="0.0" y="492" width="600" height="44"/>
                                 <gestureRecognizers/>
                                 <items>
-                                    <barButtonItem title="Suffle" id="gp0-bd-Z8Z">
+                                    <barButtonItem title="Shuffle" id="gp0-bd-Z8Z">
                                         <connections>
                                             <action selector="onClickShuffleButton:" destination="s1j-1C-fPF" id="GIX-IB-ASh"/>
                                         </connections>
@@ -132,6 +132,11 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="2rl-XE-zdi"/>
+                                    <barButtonItem title="Youtube" id="tVx-NG-UiR">
+                                        <connections>
+                                            <action selector="onClickYoutubeButton:" destination="s1j-1C-fPF" id="Rrb-rk-XhX"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                             <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WHE-qK-wSz">
@@ -233,11 +238,6 @@
                         <barButtonItem key="leftBarButtonItem" systemItem="search" id="dlO-qQ-pE6">
                             <connections>
                                 <action selector="onClickAlbumsButton:" destination="s1j-1C-fPF" id="Dvp-7a-2Nx"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Youtube" id="tVx-NG-UiR">
-                            <connections>
-                                <action selector="onClickYoutubeButton:" destination="s1j-1C-fPF" id="Rrb-rk-XhX"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
