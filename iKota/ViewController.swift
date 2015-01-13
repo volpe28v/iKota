@@ -19,7 +19,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var similarTunes : Array<Tune>! = []
     var playingTune : Tune? = nil
     var playingRelateIndex : Int!
-    var isAlbumMode : Bool = false
+    var isAlbumMode : Bool = true
     var youtubeConnector : YoutubeConnector! = YoutubeConnector()
     var sections: Array<String> = ["Same Tuning", "Similar Tuning"]
 
@@ -308,7 +308,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 // UIスレッド
                 self.relateTunes = targetTunes
                 self.similarTunes = targetSimilarTunes
-                self.sections[0] = self.makeSectionText("Same Tuning - ", count: self.relateTunes.count)
+                self.sections[0] = self.makeSectionText(self.playingTune!.getTuningName() + " - ", count: self.relateTunes.count)
                 self.sections[1] = self.makeSectionText("Similar Tuning - ", count: self.similarTunes.count)
 
                 // テーブルを更新
@@ -342,7 +342,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             self.dispatch_async_main {
                 // UIスレッド
                 self.relateTunes = targetTunes
-                self.sections[0] = self.makeSectionText("Album - ", count: self.relateTunes.count)
+                self.sections[0] = self.makeSectionText("", count: self.relateTunes.count)
                 
                 // テーブルを更新
                 self.tunesIndicator.stopAnimating()
@@ -376,7 +376,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     @IBAction func onClickShuffleButton(sender: AnyObject) {
-        self.isAlbumMode = false
         
         self.player.setQueueWithQuery(query)
         self.player.shuffleMode = MPMusicShuffleMode.Songs   //全曲でシャッフル
@@ -410,6 +409,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     @IBAction func onClickAlbumsButton(sender: AnyObject) {
         performSegueWithIdentifier("search", sender: nil)
+    }
+    @IBAction func onClickListMode(sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex
+        {
+        case 0:
+            self.isAlbumMode = true
+            self.updateTunelistForAlbum()
+        case 1:
+            self.isAlbumMode = false
+            self.updateTunelistForTuning()
+        default:
+            break; 
+        }
     }
 }
 
