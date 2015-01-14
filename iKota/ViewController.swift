@@ -12,9 +12,8 @@ import AVFoundation
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var player : MPMusicPlayerController!
-    var query : MPMediaQuery!
     var ncenter : NSNotificationCenter!
-    var tuneCollection : TuneCollection! = TuneCollection()
+    var tuneCollection : TuneCollection! = TuneCollection.sharedInstance
     var relateTunes : Array<Tune>! = []
     var similarTunes : Array<Tune>! = []
     var playingTune : Tune? = nil
@@ -23,6 +22,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var youtubeConnector : YoutubeConnector! = YoutubeConnector()
     var sections: Array<String> = ["Same Tuning", "Similar Tuning"]
 
+    var nextAlbum : String?
+    
 //    var avplayer : AVAudioPlayer!
     
     @IBOutlet weak var playingImageView: UIImageView!
@@ -31,6 +32,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var playingAlbumLabel: UILabel!
     @IBOutlet weak var playingWebView: UIWebView!
 
+    @IBOutlet weak var listModeSegmentedControl: UISegmentedControl!
     @IBOutlet weak var tunesTable: UITableView!
     @IBOutlet weak var tunesIndicator: UIActivityIndicatorView!
 
@@ -67,18 +69,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
         // 押尾コータローの全曲を取得して登録
         self.player = MPMusicPlayerController.iPodMusicPlayer()
-        self.query = MPMediaQuery.artistsQuery()
-        var pred : MPMediaPropertyPredicate! = MPMediaPropertyPredicate(value:"押尾コータロー", forProperty:MPMediaItemPropertyArtist)
-        self.query.addFilterPredicate(pred)
         
-        for item : AnyObject in self.query.items{
-            if (!self.tuneCollection.registItem(item)){
-                var titleString: String = item.valueForProperty(MPMediaItemPropertyTitle) as String
-                var albumString: String = item.valueForProperty(MPMediaItemPropertyAlbumTitle) as String
-                println("unregist - " + titleString + " : " + albumString)
-            }
-        }
-
         // 再生変更通知を登録
         self.ncenter = NSNotificationCenter.defaultCenter()
         self.ncenter.addObserver(
@@ -420,6 +411,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBAction func onClickAlbumsButton(sender: AnyObject) {
         performSegueWithIdentifier("search", sender: nil)
     }
+    
     @IBAction func onClickListMode(sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex
         {
@@ -433,5 +425,52 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             break; 
         }
     }
-}
+    
+    @IBAction func playListReturnActionForSegue(segue: UIStoryboardSegue) {
+        if let album = self.nextAlbum {
+            println(album)
+            self.relateTunes = []
+            self.similarTunes = []
+            self.tunesTable.reloadData()
+            self.tunesIndicator.startAnimating()
 
+            dispatch_async_global {
+                var targetItems = Array<AnyObject>()
+                var targetTunes = Array<Tune>()
+                for tune : Tune in self.tuneCollection.activeTunes {
+                    if tune.album == album {
+                        targetItems.append(tune.item!)
+                        targetTunes.append(tune)
+                    }
+                }
+                self.playingRelateIndex = 0
+
+                self.dispatch_async_main {
+                    // UIスレッド
+                    self.isAlbumMode = true
+                    self.listModeSegmentedControl.selectedSegmentIndex = 0
+                    self.relateTunes = targetTunes
+                    self.sections[0] = self.makeSectionText("", count: self.relateTunes.count)
+                    
+                    // テーブルを更新
+                    self.tunesIndicator.stopAnimating()
+                    self.tunesTable.reloadData()
+                    
+                    // リストを再生
+                    var items = MPMediaItemCollection(items: targetItems)
+                    self.player.setQueueWithItemCollection(items)
+                    self.player.shuffleMode = MPMusicShuffleMode.Off
+                    self.player.repeatMode = MPMusicRepeatMode.All       //全曲でリピート
+                    self.player.play()
+                    
+                    /* このタイミングで叩いても効かない
+                    // フォーカスを設定
+                    let currentIndexPath = NSIndexPath(forRow:0, inSection:0)
+                    self.tunesTable.selectRowAtIndexPath(currentIndexPath, animated: true, scrollPosition: UITableViewScrollPosition.Middle)
+                    */
+                }
+            }
+            self.nextAlbum = nil
+        }
+    }
+}

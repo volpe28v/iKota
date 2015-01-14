@@ -242,6 +242,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="listModeSegmentedControl" destination="uN3-dY-0vP" id="udX-II-nc6"/>
                         <outlet property="playOrStopButton" destination="nUM-Wo-7BP" id="zBG-Dc-EVh"/>
                         <outlet property="playingAlbumLabel" destination="eYK-S8-2SZ" id="0Jd-O5-sAG"/>
                         <outlet property="playingImageView" destination="rck-7u-40O" id="141-17-D1Z"/>
@@ -262,15 +263,43 @@
         <scene sceneID="aXM-n4-3Gs">
             <objects>
                 <tableViewController title="Search" id="Jw0-aD-28L" customClass="SearchViewController" customModule="iKota" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="4ye-jN-FbZ">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="69" sectionHeaderHeight="22" sectionFooterHeight="22" id="4ye-jN-FbZ">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="H5U-Q4-xAx">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="album" rowHeight="69" id="H5U-Q4-xAx">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="H5U-Q4-xAx" id="I1x-lh-Sm9">
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LYK-R1-z2B">
+                                            <rect key="frame" x="8" y="4" width="60" height="60"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="60" id="PL7-Hi-bLk"/>
+                                                <constraint firstAttribute="width" constant="60" id="wOk-Qb-tLG"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KdI-e2-CaP">
+                                            <rect key="frame" x="76" y="20" width="516" height="28"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="centerY" secondItem="KdI-e2-CaP" secondAttribute="centerY" id="AIc-ct-etq"/>
+                                        <constraint firstItem="KdI-e2-CaP" firstAttribute="top" secondItem="I1x-lh-Sm9" secondAttribute="topMargin" id="CGg-bD-JMz"/>
+                                        <constraint firstAttribute="centerY" secondItem="LYK-R1-z2B" secondAttribute="centerY" id="cFl-CD-7Pi"/>
+                                        <constraint firstItem="KdI-e2-CaP" firstAttribute="trailing" secondItem="I1x-lh-Sm9" secondAttribute="trailingMargin" id="lSc-Go-5Qi"/>
+                                        <constraint firstItem="LYK-R1-z2B" firstAttribute="leading" secondItem="I1x-lh-Sm9" secondAttribute="leadingMargin" id="rBg-mt-MOC"/>
+                                        <constraint firstItem="KdI-e2-CaP" firstAttribute="leading" secondItem="LYK-R1-z2B" secondAttribute="trailing" constant="8" id="u7f-Hj-hSe"/>
+                                    </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="CGg-bD-JMz"/>
+                                        </mask>
+                                    </variation>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
@@ -283,10 +312,14 @@
                         <barButtonItem title="Item" id="c9Z-Rs-OKp"/>
                     </toolbarItems>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <segue destination="o9M-ry-mpj" kind="unwind" identifier="playlist" unwindAction="playListReturnActionForSegue:" id="S5P-Yv-fIu"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pcT-gz-mR9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="o9M-ry-mpj" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="17" y="1159"/>
+            <point key="canvasLocation" x="17" y="1156"/>
         </scene>
         <!--Youtube-->
         <scene sceneID="W3D-sj-BaI">

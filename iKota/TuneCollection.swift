@@ -130,10 +130,19 @@ class Tune {
 
 class TuneCollection {
     
+    // シングルトン化
+    class var sharedInstance :TuneCollection {
+        struct Static {
+            static let instance = TuneCollection()
+        }
+        return Static.instance
+    }
+    
     var tunes: [Tune] = []
     var activeTunes: [Tune] = []
+    var activeAlbums: [Tune] = []
     
-    init(){
+    private init(){
         self.tunes = []
         self.tunes.append(Tune(album:"10th Anniversary BEST - Ballade Side", title:"オアシス", tuning:"AEEF#BE", capo: 0))
         self.tunes.append(Tune(album:"10th Anniversary BEST - Ballade Side", title:"ずっと...", tuning:"Standard", capo: 0))
@@ -374,14 +383,36 @@ class TuneCollection {
         self.tunes.append(Tune(album:"Panorama", title:"サバンナ", tuning:"DADF#AD", capo: 0))
         self.tunes.append(Tune(album:"Panorama", title:"Carnival", tuning:"Standard", capo: 0))
         
+        // 端末に保存されている押尾コータローさんの曲を保持する
+        var query = MPMediaQuery.artistsQuery()
+        var pred : MPMediaPropertyPredicate! = MPMediaPropertyPredicate(value:"押尾コータロー", forProperty:MPMediaItemPropertyArtist)
+        query.addFilterPredicate(pred)
         
+        for item : AnyObject in query.items{
+            if let tune = self.registItem(item){
+                var isFound = false
+                for at in self.activeAlbums {
+                    if tune.album == at.album {
+                        isFound = true
+                        break
+                    }
+                }
+                if !isFound {
+                    self.activeAlbums.append(tune)
+                }
+            }else{
+                var titleString: String = item.valueForProperty(MPMediaItemPropertyTitle) as String
+                var albumString: String = item.valueForProperty(MPMediaItemPropertyAlbumTitle) as String
+                println("unregist - " + titleString + " : " + albumString)
+            }
+        }
     }
     
     func getAllTuning() -> [String] {
         return ["Standard","DADGAD"]
     }
     
-    func registItem(item : AnyObject) -> Bool {
+    func registItem(item : AnyObject) -> Tune? {
         var titleString: String = item.valueForProperty(MPMediaItemPropertyTitle) as String
         var albumString: String = item.valueForProperty(MPMediaItemPropertyAlbumTitle) as String
         
@@ -389,10 +420,10 @@ class TuneCollection {
             if tune.title == titleString && tune.album == albumString {
                 tune.item = item
                 self.activeTunes.append(tune)
-                return true
+                return tune
             }
         }
-        return false
+        return nil
     }
     
     func getTuneByItem(item : AnyObject) -> Tune?{
@@ -453,32 +484,4 @@ class TuneCollection {
         
         return tunes
     }
-
-    /*
-    func compareTuning(source: String, target: String) -> Int
-    {
-        
-        // それぞれ比較
-        var sourcePitches = parseTuning(source)
-        var targetPitches = parseTuning(target)
-        
-        // 結果を判断
-        var result : [Int] = [0,0,0,0,0,0]
-        var score = 0
-        var sameDistance = true
-        for i in 0..<6 {
-            result[i] = targetPitches[i] - sourcePitches[i]
-            score += abs(result[i])
-            if (i > 0 && result[i-1] != result[i]){
-                sameDistance = false
-            }
-        }
-        
-        if (sameDistance){
-            score = abs(result[0])
-        }
-        return score
-    }
-*/
-
 }
