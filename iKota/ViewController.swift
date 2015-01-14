@@ -280,40 +280,42 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
         
     func updateTunelistForTuning() {
-        // テーブルをクリア
-        self.relateTunes = []
-        self.similarTunes = []
-        self.tunesTable.reloadData()
-        self.tunesIndicator.startAnimating()
-        
-        self.dispatch_async_global {
-            // 別スレッド
-            // チューニングが同じ曲をテーブルに表示
-            var targetTunes = Array<Tune>()
-            for tune : Tune in self.tuneCollection.activeTunes {
-                if self.playingTune!.tuning == tune.tuning {
-                    targetTunes.append(tune)
-                }
-            }
+        if let pt = self.playingTune {
+            // テーブルをクリア
+            self.relateTunes = []
+            self.similarTunes = []
+            self.tunesTable.reloadData()
+            self.tunesIndicator.startAnimating()
             
-            var targetSimilarTunes = Array<Tune>()
-            for tune : Tune in self.tuneCollection.activeTunes {
-                let score = self.playingTune!.compareTuning(tune)
-                if score >= 1 && score <= 3 {
-                    targetSimilarTunes.append(tune)
+            self.dispatch_async_global {
+                // 別スレッド
+                // チューニングが同じ曲をテーブルに表示
+                var targetTunes = Array<Tune>()
+                for tune : Tune in self.tuneCollection.activeTunes {
+                    if pt.tuning == tune.tuning {
+                        targetTunes.append(tune)
+                    }
                 }
-            }
-            
-            self.dispatch_async_main {
-                // UIスレッド
-                self.relateTunes = targetTunes
-                self.similarTunes = targetSimilarTunes
-                self.sections[0] = self.makeSectionText(self.playingTune!.getTuningName() + " - ", count: self.relateTunes.count)
-                self.sections[1] = self.makeSectionText("Similar Tuning - ", count: self.similarTunes.count)
-
-                // テーブルを更新
-                self.tunesIndicator.stopAnimating()
-                self.tunesTable.reloadData()
+                
+                var targetSimilarTunes = Array<Tune>()
+                for tune : Tune in self.tuneCollection.activeTunes {
+                    let score = pt.compareTuning(tune)
+                    if score >= 1 && score <= 3 {
+                        targetSimilarTunes.append(tune)
+                    }
+                }
+                
+                self.dispatch_async_main {
+                    // UIスレッド
+                    self.relateTunes = targetTunes
+                    self.similarTunes = targetSimilarTunes
+                    self.sections[0] = self.makeSectionText(self.playingTune!.getTuningName() + " - ", count: self.relateTunes.count)
+                    self.sections[1] = self.makeSectionText("Similar Tuning - ", count: self.similarTunes.count)
+                    
+                    // テーブルを更新
+                    self.tunesIndicator.stopAnimating()
+                    self.tunesTable.reloadData()
+                }
             }
         }
     }
@@ -324,29 +326,31 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func updateTunelistForAlbum(){
-        // テーブルをクリア
-        self.relateTunes = []
-        self.similarTunes = []
-        self.tunesTable.reloadData()
-        self.tunesIndicator.startAnimating()
-        
-        dispatch_async_global {
-            // アルバムが同じ曲をテーブルに表示
-            var targetTunes = Array<Tune>()
-            for tune : Tune in self.tuneCollection.activeTunes {
-                if tune.album == self.playingTune!.album {
-                    targetTunes.append(tune)
-                }
-            }
+        if let pt = self.playingTune {
+            // テーブルをクリア
+            self.relateTunes = []
+            self.similarTunes = []
+            self.tunesTable.reloadData()
+            self.tunesIndicator.startAnimating()
             
-            self.dispatch_async_main {
-                // UIスレッド
-                self.relateTunes = targetTunes
-                self.sections[0] = self.makeSectionText("", count: self.relateTunes.count)
+            dispatch_async_global {
+                // アルバムが同じ曲をテーブルに表示
+                var targetTunes = Array<Tune>()
+                for tune : Tune in self.tuneCollection.activeTunes {
+                    if tune.album == pt.album {
+                        targetTunes.append(tune)
+                    }
+                }
                 
-                // テーブルを更新
-                self.tunesIndicator.stopAnimating()
-                self.tunesTable.reloadData()
+                self.dispatch_async_main {
+                    // UIスレッド
+                    self.relateTunes = targetTunes
+                    self.sections[0] = self.makeSectionText("", count: self.relateTunes.count)
+                    
+                    // テーブルを更新
+                    self.tunesIndicator.stopAnimating()
+                    self.tunesTable.reloadData()
+                }
             }
         }
     }
@@ -403,12 +407,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let item = player.nowPlayingItem as MPMediaItem
-        var titleString: String = item.valueForProperty(MPMediaItemPropertyTitle) as String
         
         if segue.identifier == "youtube" {
-            var youtubeController = segue.destinationViewController as YoutubeViewController
-            youtubeController.playingTitle = titleString
+            if let item = self.player.nowPlayingItem as MPMediaItem? {
+                var titleString: String = item.valueForProperty(MPMediaItemPropertyTitle) as String
+                var youtubeController = segue.destinationViewController as YoutubeViewController
+                youtubeController.playingTitle = titleString
+            }
         }
     }
     
