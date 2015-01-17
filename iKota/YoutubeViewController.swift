@@ -62,7 +62,7 @@ class YoutubeViewController: UITableViewController {
     }
     
     func getYoutube(){
-        self.youtubeConnector.getYoutube(self.playingTitle, resultNum: 12, completionHandler: { youtubeData in
+        self.youtubeConnector.getYoutube(self.playingTitle, resultNum: 10, completionHandler: { youtubeData in
             if youtubeData.count > 0 {
                 self.youtubeData = youtubeData
                 dispatch_async(dispatch_get_main_queue(),{
