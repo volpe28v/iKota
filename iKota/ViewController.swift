@@ -17,7 +17,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var relateTunes : Array<Tune>! = []
     var similarTunes : Array<Tune>! = []
     var playingTune : Tune? = nil
-    var playingRelateIndex : Int!
+    var playingBeginingRelateIndex : Int!
     var isAlbumMode : Bool = true
     var youtubeConnector : YoutubeConnector! = YoutubeConnector()
     var sections: Array<String> = ["Same Tuning", "Similar Tuning"]
@@ -49,10 +49,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func setCurrentPlayOrStopButtonLabel(){
         switch (self.player.playbackState){
         case MPMusicPlaybackState.Stopped,MPMusicPlaybackState.Paused:
-            println("Stop")
             self.playOrStopButton.title = "▶︎"
         case MPMusicPlaybackState.Playing,MPMusicPlaybackState.Interrupted,MPMusicPlaybackState.SeekingForward,MPMusicPlaybackState.SeekingBackward:
-            println("Playing")
             self.playOrStopButton.title = "■"
         }
         
@@ -151,11 +149,32 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         var tuning = cell.viewWithTag(3) as UILabel
         tuning.text = tuningString
         
+        // 再生中マークを付ける
+        var playingMark = cell.viewWithTag(4) as UILabel
+        if let pt = self.playingTune {
+            if pt === tune! {
+                playingMark.text = "▶︎"
+            }else{
+                playingMark.text = ""
+            }
+        }else{
+            playingMark.text = ""
+        }
+        
+        var playCount = cell.viewWithTag(5) as UILabel
+        let count = tune!.getPlayCount()
+        if count > 0 {
+            playCount.text = String(count)
+        }else{
+            playCount.text = ""
+        }
+
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath:NSIndexPath!) {
         var tuneItems = Array<AnyObject>()
+        var tune : Tune? = nil
         if indexPath.section == 0 {
             for (i,tune : Tune) in enumerate(self.relateTunes as Array){
                 if (i < indexPath.row){
@@ -176,10 +195,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             self.avplayer.play()
             */
             
-            self.playingRelateIndex = indexPath.row
+            self.playingBeginingRelateIndex = indexPath.row
+            tune = self.relateTunes[indexPath.row]
         }else{
-            var tune = self.similarTunes[indexPath.row]
-            tuneItems.insert(tune.item!,atIndex: 0)
+            tune = self.similarTunes[indexPath.row]
+            tuneItems.insert(tune!.item!,atIndex: 0)
         }
         
         // リストを再生
@@ -189,6 +209,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.player.repeatMode = MPMusicRepeatMode.All       //全曲でリピート
         self.player.play()
         
+        // 選択した曲の再生回数をDBに保存する
+        tune!.addPlayCount()
     }
     
     // 再生曲が変わったら呼ばれるハンドラ
@@ -218,13 +240,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
             if self.isAlbumMode {
                 if preAlbum == albumString{
-                    self.focusPlayingTuneInTunelist()
+                    self.tunesTable.reloadData()
                 }else{
                     self.updateTunelistForAlbum()
                 }
             }else{
                 if preTuning == tuningBase {
-                    self.focusPlayingTuneInTunelist()
+                    self.tunesTable.reloadData()
                 }else{
                     self.updateTunelistForTuning()
                 }
@@ -258,18 +280,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
     }
 
-    func focusPlayingTuneInTunelist(){
-        let selectedIndex = self.tunesTable.indexPathForSelectedRow()
-        if (selectedIndex != nil){
-            var nextRow:Int = player.indexOfNowPlayingItem + self.playingRelateIndex
-            if nextRow >= self.relateTunes.count {
-                nextRow -= self.relateTunes.count
-            }
-            let currentIndexPath = NSIndexPath(forRow:nextRow, inSection:0)
-            self.tunesTable.selectRowAtIndexPath(currentIndexPath, animated: true, scrollPosition: UITableViewScrollPosition.Middle)
-        }
-    }
-        
     func updateTunelistForTuning() {
         if let pt = self.playingTune {
             // テーブルをクリア
@@ -428,7 +438,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     @IBAction func playListReturnActionForSegue(segue: UIStoryboardSegue) {
         if let album = self.nextAlbum {
-            println(album)
             self.relateTunes = []
             self.similarTunes = []
             self.tunesTable.reloadData()
@@ -443,7 +452,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                         targetTunes.append(tune)
                     }
                 }
-                self.playingRelateIndex = 0
+                self.playingBeginingRelateIndex = 0
 
                 self.dispatch_async_main {
                     // UIスレッド

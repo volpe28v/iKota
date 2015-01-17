@@ -126,6 +126,17 @@ class Tune {
         }
         return source_array
     }
+    
+    func addPlayCount(){
+        let ud = NSUserDefaults.standardUserDefaults()
+        let count = ud.integerForKey(album + ":" + title)
+        ud.setObject(count + 1, forKey: album + ":" + title)
+    }
+    
+    func getPlayCount() -> Int{
+        let ud = NSUserDefaults.standardUserDefaults()
+        return ud.integerForKey(album + ":" + title)
+    }
 }
 
 class TuneCollection {
