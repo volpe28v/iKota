@@ -171,6 +171,7 @@
                                         </connections>
                                     </barButtonItem>
                                 </items>
+                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </toolbar>
                             <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WHE-qK-wSz">
                                 <rect key="frame" x="534" y="45" width="60" height="60"/>
@@ -192,6 +193,7 @@
                                     <segment title="Album"/>
                                     <segment title="Tuning"/>
                                 </segments>
+                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <action selector="onClickListMode:" destination="s1j-1C-fPF" eventType="valueChanged" id="b5b-Gt-Q7T"/>
                                 </connections>
@@ -437,4 +439,5 @@
             <point key="canvasLocation" x="1395" y="441"/>
         </scene>
     </scenes>
+    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
 </document>
