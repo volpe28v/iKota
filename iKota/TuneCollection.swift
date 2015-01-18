@@ -58,6 +58,27 @@ class Tune {
         return score
     }
 
+    func getCompareUpDownTuning(target: Tune) -> String
+    {
+        if (self.pitches.count != 6 || target.pitches.count != 6) {
+            return ""
+        }
+        
+        // 結果を判断
+        var upDownResult : String = ""
+        for i in 0..<6 {
+            let result = target.pitches[i] - self.pitches[i]
+            if result == 0 {
+                upDownResult += "ー"
+            }else if result > 0 {
+                upDownResult += "↓"
+            }else{
+                upDownResult += "↑"
+            }
+        }
+        return upDownResult
+    }
+
     //音程を数字に変換
     func convPitchToInt(pitch: String) -> Int {
         switch pitch {
@@ -237,17 +258,6 @@ class TuneCollection {
         self.tunes.append(Tune(album:"Hand to Hand", title:"HEART BEAT!", tuning:"Standard", capo: 0))
         self.tunes.append(Tune(album:"Hand to Hand", title:"Go Ahead", tuning:"DADGAD", capo: 0))
         self.tunes.append(Tune(album:"Hand to Hand", title:"また明日。", tuning:"Standard", capo: 0))
-
-        self.tunes.append(Tune(album:"Tussie mussie", title:"LOVIN' YOU", tuning:"Standard", capo: 0))
-        self.tunes.append(Tune(album:"Tussie mussie", title:"CLOSE TO YOU", tuning:"C#G#D#G#B#D#", capo: 0))
-        self.tunes.append(Tune(album:"Tussie mussie", title:"そして僕は途方に暮れる", tuning:"C#G#D#G#B#D#", capo: 0))
-        self.tunes.append(Tune(album:"Tussie mussie", title:"元気を出して", tuning:"Standard", capo: 0))
-        self.tunes.append(Tune(album:"Tussie mussie", title:"FIRST LOVE", tuning:"CGDGBD", capo: 0))
-        self.tunes.append(Tune(album:"Tussie mussie", title:"CAN'T TAKE MY EYES OFF OF YOU ～君の瞳に恋してる～", tuning:"Standard", capo: 0))
-        self.tunes.append(Tune(album:"Tussie mussie", title:"SOMEDAY", tuning:"C#G#C#F#A#C#", capo: 0))
-        self.tunes.append(Tune(album:"Tussie mussie", title:"TIME AFTER TIME", tuning:"C#G#D#G#B#D#", capo: 0))
-        self.tunes.append(Tune(album:"Tussie mussie", title:"涙のキッス", tuning:"C#G#D#G#B#D#", capo: 0))
-        self.tunes.append(Tune(album:"Tussie mussie", title:"LOVE", tuning:"Standard", capo: 0))
         
         self.tunes.append(Tune(album:"Eternal Chain", title:"Prelude ～sunrise～", tuning:"CGDGBD", capo: 3))
         self.tunes.append(Tune(album:"Eternal Chain", title:"Landscape", tuning:"CGDGBD", capo: 3))
@@ -265,6 +275,17 @@ class TuneCollection {
         self.tunes.append(Tune(album:"Eternal Chain", title:"Earth Angel", tuning:"AEEF#BE", capo: 0))
         self.tunes.append(Tune(album:"Eternal Chain", title:"ハピネス", tuning:"GCFBbDG", capo: 0))
         self.tunes.append(Tune(album:"Eternal Chain", title:"Coda ～sunset～", tuning:"CGDGBD", capo: 3))
+
+        self.tunes.append(Tune(album:"Tussie mussie", title:"LOVIN' YOU", tuning:"Standard", capo: 0))
+        self.tunes.append(Tune(album:"Tussie mussie", title:"CLOSE TO YOU", tuning:"C#G#D#G#B#D#", capo: 0))
+        self.tunes.append(Tune(album:"Tussie mussie", title:"そして僕は途方に暮れる", tuning:"C#G#D#G#B#D#", capo: 0))
+        self.tunes.append(Tune(album:"Tussie mussie", title:"元気を出して", tuning:"Standard", capo: 0))
+        self.tunes.append(Tune(album:"Tussie mussie", title:"FIRST LOVE", tuning:"CGDGBD", capo: 0))
+        self.tunes.append(Tune(album:"Tussie mussie", title:"CAN'T TAKE MY EYES OFF OF YOU ～君の瞳に恋してる～", tuning:"Standard", capo: 0))
+        self.tunes.append(Tune(album:"Tussie mussie", title:"SOMEDAY", tuning:"C#G#C#F#A#C#", capo: 0))
+        self.tunes.append(Tune(album:"Tussie mussie", title:"TIME AFTER TIME", tuning:"C#G#D#G#B#D#", capo: 0))
+        self.tunes.append(Tune(album:"Tussie mussie", title:"涙のキッス", tuning:"C#G#D#G#B#D#", capo: 0))
+        self.tunes.append(Tune(album:"Tussie mussie", title:"LOVE", tuning:"Standard", capo: 0))
 
         self.tunes.append(Tune(album:"Nature Spirit", title:"Deep Silence", tuning:"AAEGAE", capo: 0))
         self.tunes.append(Tune(album:"Nature Spirit", title:"Rushin'", tuning:"AAEGAE", capo: 0))

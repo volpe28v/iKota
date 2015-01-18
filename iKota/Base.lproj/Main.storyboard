@@ -44,7 +44,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TDL-90-dcR">
-                                                    <rect key="frame" x="14" y="4" width="50" height="50"/>
+                                                    <rect key="frame" x="14" y="6" width="50" height="50"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="Ea9-vo-pMp"/>
                                                         <constraint firstAttribute="width" constant="50" id="hTP-NT-Gt0"/>
@@ -57,8 +57,8 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="tuning" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3wJ-dC-t5h">
-                                                    <rect key="frame" x="72" y="31" width="458" height="15"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <rect key="frame" x="72" y="32" width="41" height="15"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -81,17 +81,27 @@
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="6" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="puZ-6G-4Ci">
+                                                    <rect key="frame" x="118" y="32" width="29" height="14"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="TDL-90-dcR" firstAttribute="top" secondItem="y5k-rN-JE5" secondAttribute="topMargin" id="6FF-Z1-nrY"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="J9O-Uv-x0Z" secondAttribute="trailing" constant="20" id="BHK-pC-4ye"/>
+                                                <constraint firstItem="puZ-6G-4Ci" firstAttribute="top" secondItem="y5k-rN-JE5" secondAttribute="topMargin" constant="22" id="Cz1-Ok-YO9"/>
                                                 <constraint firstItem="EcB-Z8-wFL" firstAttribute="top" secondItem="y5k-rN-JE5" secondAttribute="topMargin" constant="19" id="Dxz-De-WIB"/>
                                                 <constraint firstItem="TDL-90-dcR" firstAttribute="leading" secondItem="y5k-rN-JE5" secondAttribute="leadingMargin" id="FfD-gM-hJh"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="3wJ-dC-t5h" secondAttribute="trailing" constant="70" id="Jqw-hK-zKh"/>
                                                 <constraint firstAttribute="centerY" secondItem="TDL-90-dcR" secondAttribute="centerY" id="M0U-er-yBL"/>
                                                 <constraint firstItem="EcB-Z8-wFL" firstAttribute="trailing" secondItem="y5k-rN-JE5" secondAttribute="trailingMargin" id="QgD-QB-kF3"/>
+                                                <constraint firstItem="puZ-6G-4Ci" firstAttribute="top" secondItem="J9O-Uv-x0Z" secondAttribute="bottom" constant="3" id="Shi-Ze-nMe"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="J9O-Uv-x0Z" secondAttribute="trailing" constant="70" id="bNh-J7-ZR3"/>
                                                 <constraint firstItem="3wJ-dC-t5h" firstAttribute="leading" secondItem="TDL-90-dcR" secondAttribute="trailing" constant="8" id="cx7-pf-NmB"/>
+                                                <constraint firstItem="puZ-6G-4Ci" firstAttribute="leading" secondItem="3wJ-dC-t5h" secondAttribute="trailing" constant="8" id="dFI-2g-kQZ"/>
+                                                <constraint firstItem="puZ-6G-4Ci" firstAttribute="leading" secondItem="3wJ-dC-t5h" secondAttribute="trailing" constant="8" id="dIq-fK-lCR"/>
                                                 <constraint firstItem="TDL-90-dcR" firstAttribute="leading" secondItem="y5k-rN-JE5" secondAttribute="leadingMargin" constant="6" id="fBH-gf-jOs"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="EcB-Z8-wFL" secondAttribute="bottom" constant="-3" id="hmR-Zb-xUi"/>
                                                 <constraint firstItem="J9O-Uv-x0Z" firstAttribute="top" secondItem="y5k-rN-JE5" secondAttribute="topMargin" id="iyM-HW-Nht"/>
@@ -105,13 +115,16 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
+                                                    <exclude reference="kQ3-Nu-RPE"/>
                                                     <exclude reference="6FF-Z1-nrY"/>
                                                     <exclude reference="FfD-gM-hJh"/>
                                                     <exclude reference="bNh-J7-ZR3"/>
                                                     <exclude reference="vk6-MN-9ko"/>
+                                                    <exclude reference="Jqw-hK-zKh"/>
                                                     <exclude reference="r7r-Zw-N6l"/>
+                                                    <exclude reference="Cz1-Ok-YO9"/>
+                                                    <exclude reference="dFI-2g-kQZ"/>
                                                     <exclude reference="hmR-Zb-xUi"/>
-                                                    <exclude reference="kQ3-Nu-RPE"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -292,7 +305,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mmE-J8-lV2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="685" y="442"/>
+            <point key="canvasLocation" x="685" y="439"/>
         </scene>
         <!--Search-->
         <scene sceneID="aXM-n4-3Gs">

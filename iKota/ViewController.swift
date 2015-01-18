@@ -126,10 +126,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let cell = cellTmp!
         
         var tune : Tune? = nil
+        var upDown : String = ""
         if indexPath.section == 0 {
             tune = self.relateTunes[indexPath.row]
         }else {
             tune = self.similarTunes[indexPath.row]
+            upDown = tune!.getCompareUpDownTuning(self.playingTune!)
         }
         
         let item = tune!.item as MPMediaItem
@@ -169,6 +171,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             playCount.text = ""
         }
 
+        var upDownTuning = cell.viewWithTag(6) as UILabel
+        upDownTuning.text = upDown
+        
         return cell
     }
     
