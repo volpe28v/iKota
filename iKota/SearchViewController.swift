@@ -56,7 +56,7 @@ class SearchViewController: UITableViewController {
         if segue.identifier == "playlist" {
             var tune : Tune = sender as Tune!
             var playListController = segue.destinationViewController as ViewController
-            playListController.nextAlbum = tune.album
+            playListController.displayAlbum = tune.album
         }
     }
 }

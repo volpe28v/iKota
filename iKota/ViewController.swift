@@ -22,7 +22,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var youtubeConnector : YoutubeConnector! = YoutubeConnector()
     var sections: Array<String> = ["Same Tuning", "Similar Tuning"]
 
-    var nextAlbum : String?
+    var displayAlbum : String?
     
 //    var avplayer : AVAudioPlayer!
     
@@ -236,7 +236,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             var preAlbum = ""
             var preTuning = ""
             if let pt = self.playingTune {
-                preAlbum = pt.album
                 preTuning = pt.tuning
             }
             
@@ -244,9 +243,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             self.playingTune = t
 
             if self.isAlbumMode {
-                if preAlbum == albumString{
+                if self.displayAlbum == albumString{
                     self.tunesTable.reloadData()
                 }else{
+                    self.displayAlbum = albumString
                     self.updateTunelistForAlbum()
                 }
             }else{
@@ -442,7 +442,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     @IBAction func playListReturnActionForSegue(segue: UIStoryboardSegue) {
-        if let album = self.nextAlbum {
+        if let album = self.displayAlbum {
             self.relateTunes = []
             self.similarTunes = []
             self.tunesTable.reloadData()
@@ -469,22 +469,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     // テーブルを更新
                     self.tunesIndicator.stopAnimating()
                     self.tunesTable.reloadData()
-                    
-                    // リストを再生
-                    var items = MPMediaItemCollection(items: targetItems)
-                    self.player.setQueueWithItemCollection(items)
-                    self.player.shuffleMode = MPMusicShuffleMode.Off
-                    self.player.repeatMode = MPMusicRepeatMode.All       //全曲でリピート
-                    self.player.play()
-                    
-                    /* このタイミングで叩いても効かない
-                    // フォーカスを設定
-                    let currentIndexPath = NSIndexPath(forRow:0, inSection:0)
-                    self.tunesTable.selectRowAtIndexPath(currentIndexPath, animated: true, scrollPosition: UITableViewScrollPosition.Middle)
-                    */
                 }
             }
-            self.nextAlbum = nil
         }
     }
 }
