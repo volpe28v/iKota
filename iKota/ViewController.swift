@@ -233,14 +233,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             var tuning: String = self.tuneCollection.getTuningByTune(titleString, album: albumString)
             var tuningBase: String = self.tuneCollection.getTuningBaseByTune(titleString, album: albumString)
             
+            var preTune = self.playingTune
+            self.playingTune = t
+            
             var preAlbum = ""
             var preTuning = ""
             if let pt = self.playingTune {
                 preTuning = pt.tuning
             }
             
-            // 再生中の情報を更新
-            self.playingTune = t
 
             if self.isAlbumMode {
                 if self.displayAlbum == albumString{
@@ -250,13 +251,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     self.updateTunelistForAlbum()
                 }
             }else{
-                if preTuning == tuningBase {
-                    self.tunesTable.reloadData()
+                if let pt = preTune {
+                    if t.compareTuning(pt) == 0 {
+                        self.tunesTable.reloadData()
+                    }else{
+                        self.updateTunelistForTuning()
+                    }
                 }else{
                     self.updateTunelistForTuning()
                 }
             }
-            
 
             let artwork = item.valueForProperty(MPMediaItemPropertyArtwork) as MPMediaItemArtwork
             let aw_image = artwork.imageWithSize(CGSizeMake(80,80)) as UIImage // 90x90 にすると落ちるので 80x80にしている
@@ -298,7 +302,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 // チューニングが同じ曲をテーブルに表示
                 var targetTunes = Array<Tune>()
                 for tune : Tune in self.tuneCollection.activeTunes {
-                    if pt.tuning == tune.tuning {
+                    if pt.compareTuning(tune) == 0 {
                         targetTunes.append(tune)
                     }
                 }
@@ -306,7 +310,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 var targetSimilarTunes = Array<Tune>()
                 for tune : Tune in self.tuneCollection.activeTunes {
                     let score = pt.compareTuning(tune)
-                    if score >= 1 && score <= 3 {
+                    if score >= 1 && score <= 2 {
                         targetSimilarTunes.append(tune)
                     }
                 }
@@ -338,6 +342,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             self.similarTunes = []
             self.tunesTable.reloadData()
             self.tunesIndicator.startAnimating()
+            self.displayAlbum = pt.album
             
             dispatch_async_global {
                 // アルバムが同じ曲をテーブルに表示

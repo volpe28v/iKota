@@ -46,7 +46,9 @@ class Tune {
         var sameDistance = true
         for i in 0..<6 {
             result[i] = target.pitches[i] - self.pitches[i]
-            score += abs(result[i])
+            if (result[i] != 0){
+                score++
+            }
             if (i > 0 && result[i-1] != result[i]){
                 sameDistance = false
             }
@@ -70,10 +72,8 @@ class Tune {
             let result = target.pitches[i] - self.pitches[i]
             if result == 0 {
                 upDownResult += "ー"
-            }else if result > 0 {
-                upDownResult += "↓"
             }else{
-                upDownResult += "↑"
+                upDownResult += "◆"
             }
         }
         return upDownResult
@@ -82,7 +82,7 @@ class Tune {
     //音程を数字に変換
     func convPitchToInt(pitch: String) -> Int {
         switch pitch {
-        case "C" :
+        case "C","B#" :
             return 0
         case "C#", "Db" :
             return 1
@@ -474,7 +474,6 @@ class TuneCollection {
         for tune : Tune in self.tunes{
             if tune.title == titleString && tune.album == albumString {
                 tune.item = item
-//                self.activeTunes.append(tune)
                 return tune
             }
         }
