@@ -131,7 +131,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             tune = self.relateTunes[indexPath.row]
         }else {
             tune = self.similarTunes[indexPath.row]
-            upDown = tune!.getCompareUpDownTuning(self.playingTune!)
+            upDown = self.playingTune!.getCompareUpDownTuning(tune!)
         }
         
         let item = tune!.item as MPMediaItem
@@ -232,6 +232,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             var albumString: String = t.album
             var tuning: String = self.tuneCollection.getTuningByTune(titleString, album: albumString)
             var tuningBase: String = self.tuneCollection.getTuningBaseByTune(titleString, album: albumString)
+            println(titleString)
             
             var preTune = self.playingTune
             self.playingTune = t

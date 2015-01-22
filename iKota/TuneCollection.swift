@@ -15,6 +15,7 @@ class Tune {
     var tuning: String
     var capo: Int
     var pitches: [Int] = []
+    let basePitches: [Int] = [7,0,5,10,2,7] // 6弦から最低音高 G C F A# D G
     var item: AnyObject?
     
     init(album: String, title: String, tuning: String, capo: Int){
@@ -72,43 +73,52 @@ class Tune {
             let result = target.pitches[i] - self.pitches[i]
             if result == 0 {
                 upDownResult += "ー"
+            }else if result > 0 {
+                upDownResult += "↑"
             }else{
-                upDownResult += "◆"
+                upDownResult += "↓"
             }
         }
         return upDownResult
     }
 
     //音程を数字に変換
-    func convPitchToInt(pitch: String) -> Int {
+    func convPitchToInt(pitch: String, index: Int) -> Int {
+        var pitchNumber: Int = 0
         switch pitch {
         case "C","B#" :
-            return 0
+            pitchNumber = 0
         case "C#", "Db" :
-            return 1
+            pitchNumber = 1
         case "D" :
-            return 2
+            pitchNumber = 2
         case "D#", "Eb" :
-            return 3
+            pitchNumber = 3
         case "E" :
-            return 4
+            pitchNumber = 4
         case "F" :
-            return 5
+            pitchNumber = 5
         case "F#","Gb" :
-            return 6
+            pitchNumber = 6
         case "G" :
-            return 7
+            pitchNumber = 7
         case "G#","Ab" :
-            return 8
+            pitchNumber = 8
         case "A" :
-            return 9
+            pitchNumber = 9
         case "A#","Bb" :
-            return 10
+            pitchNumber = 10
         case "B" :
-            return 11
+            pitchNumber = 11
         default :
             return 99
         }
+        pitchNumber -= self.basePitches[index]
+        if pitchNumber < 0 {
+            pitchNumber += 12
+        }
+        
+        return pitchNumber
     }
     
     // チューニングの類似度を求めるプログラム
@@ -123,24 +133,25 @@ class Tune {
         var length = countElements(baseTuning)
         
         var pre_pitch: String = ""
+        var pitch_index = 0
         for ( var i = 0; i < length; i++){
             var current_pitch: Character = source[advance(source.startIndex, i)]
             // #かbの場合は含めて確定する
             if (current_pitch == "#" || current_pitch == "b"){
                 var pitchString: String = source[Range(start: advance(source.startIndex, i-1),end: advance(source.startIndex, i+1))]
-                source_array.append(convPitchToInt(pitchString))
+                source_array.append(convPitchToInt(pitchString, index: pitch_index++))
             }else{
                 if (i > 0){
                     var pre_pitch: Character = source[advance(source.startIndex, i-1)]
                     if (pre_pitch != "#" && pre_pitch != "b")
                     {
                         var pitchString: String = source[Range(start: advance(source.startIndex, i-1),end: advance(source.startIndex, i))]
-                        source_array.append(convPitchToInt(pitchString))
+                        source_array.append(convPitchToInt(pitchString, index: pitch_index++))
                     }
                     
                     if (i == length - 1){
                         var pitchString: String = source[Range(start: advance(source.startIndex, i),end: advance(source.startIndex, i+1))]
-                        source_array.append(convPitchToInt(pitchString))
+                        source_array.append(convPitchToInt(pitchString, index: pitch_index++))
                     }
                 }
             }
