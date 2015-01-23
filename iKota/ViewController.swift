@@ -17,7 +17,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var relateTunes : Array<Tune>! = []
     var similarTunes : Array<Tune>! = []
     var playingTune : Tune? = nil
-    var playingBeginingRelateIndex : Int!
     var isAlbumMode : Bool = true
     var youtubeConnector : YoutubeConnector! = YoutubeConnector()
     var sections: Array<String> = ["Same Tuning", "Similar Tuning"]
@@ -181,6 +180,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         var tuneItems = Array<AnyObject>()
         var tune : Tune? = nil
         if indexPath.section == 0 {
+            // 選択曲を先頭にしたプレイリストを作成する
             for (i,tune : Tune) in enumerate(self.relateTunes as Array){
                 if (i < indexPath.row){
                     tuneItems.append(tune.item!)
@@ -200,11 +200,28 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             self.avplayer.play()
             */
             
-            self.playingBeginingRelateIndex = indexPath.row
             tune = self.relateTunes[indexPath.row]
         }else{
+            // 選択された類似曲と同じチューニングのプレイリストを作成する
             tune = self.similarTunes[indexPath.row]
-            tuneItems.insert(tune!.item!,atIndex: 0)
+
+            var beforeItems = Array<AnyObject>()
+            var afterItems = Array<AnyObject>()
+            var isFound = false
+            for activeTune : Tune in self.tuneCollection.activeTunes {
+                if activeTune.compareTuning(tune!) == 0 {
+                    if activeTune === tune! {
+                        beforeItems.append(tune!.item!)
+                        isFound = true
+                    }else if isFound {
+                        beforeItems.append(activeTune.item!)
+                    }else{
+                        afterItems.append(activeTune.item!)
+                    }
+                }
+            }
+
+            tuneItems = beforeItems + afterItems
         }
         
         // リストを再生
@@ -463,7 +480,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                         targetTunes.append(tune)
                     }
                 }
-                self.playingBeginingRelateIndex = 0
 
                 self.dispatch_async_main {
                     // UIスレッド

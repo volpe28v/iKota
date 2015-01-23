@@ -55,8 +55,12 @@ class YoutubeConnector{
                     var author_name = author["name"] as NSDictionary
                     var author_name_body = author_name["$t"] as String
                 
-                    var statistics = item["yt$statistics"] as NSDictionary
-                    var viewCount = statistics["viewCount"] as String
+                    var viewCount = ""
+                    if let st = item["yt$statistics"] as? NSDictionary {
+                        var statistics = item["yt$statistics"] as NSDictionary
+                        viewCount = statistics["viewCount"] as String
+                        
+                    }
                 
                     var youtube = YoutubeInfo()
                     youtube.title = title_body
