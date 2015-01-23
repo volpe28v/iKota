@@ -434,7 +434,7 @@ class TuneCollection {
         self.tunes.append(Tune(album:"押尾コータロー", title:"アイルランドの風", tuning:"AAEGAD", capo: 0))
         self.tunes.append(Tune(album:"押尾コータロー", title:"木もれ陽", tuning:"Standard", capo: 0))
         self.tunes.append(Tune(album:"押尾コータロー", title:"Dancin' コオロギ", tuning:"Standard", capo: 0))
-        self.tunes.append(Tune(album:"押尾コータロー", title:"戦場のメリークリスマス", tuning:"DDGAC", capo: 0))
+        self.tunes.append(Tune(album:"押尾コータロー", title:"戦場のメリークリスマス", tuning:"DADGAC", capo: 0))
         self.tunes.append(Tune(album:"押尾コータロー", title:"カバティーナ", tuning:"DGDGBD", capo: 0))
         self.tunes.append(Tune(album:"押尾コータロー", title:"ボレロ", tuning:"CGCGBE", capo: 0))
         self.tunes.append(Tune(album:"押尾コータロー", title:"星砂", tuning:"DADGAD", capo: 0))
