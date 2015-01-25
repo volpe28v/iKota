@@ -319,11 +319,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="pKA-0r-6Rg">
-                                <rect key="frame" x="24" y="68" width="552" height="29"/>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="pKA-0r-6Rg">
+                                <rect key="frame" x="7" y="68" width="582" height="29"/>
                                 <segments>
-                                    <segment title="First"/>
-                                    <segment title="Second"/>
+                                    <segment title="Album"/>
+                                    <segment title="Tuning"/>
+                                    <segment title="History"/>
+                                    <segment title="Count"/>
                                 </segments>
                             </segmentedControl>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="69" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="4ye-jN-FbZ">
@@ -372,12 +374,20 @@
                             <constraint firstItem="4ye-jN-FbZ" firstAttribute="top" secondItem="pKA-0r-6Rg" secondAttribute="bottom" constant="4" id="7uE-Yy-fyP"/>
                             <constraint firstItem="pKA-0r-6Rg" firstAttribute="top" secondItem="BpJ-5v-UvQ" secondAttribute="bottom" constant="4" id="8kw-1z-LHb"/>
                             <constraint firstItem="pKA-0r-6Rg" firstAttribute="leading" secondItem="75p-Qw-KAn" secondAttribute="leadingMargin" constant="8" id="IRO-fC-vuB"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="pKA-0r-6Rg" secondAttribute="trailing" constant="-10" id="MF5-8v-dwl"/>
                             <constraint firstAttribute="trailingMargin" secondItem="pKA-0r-6Rg" secondAttribute="trailing" constant="8" id="bWL-EW-xKN"/>
                             <constraint firstAttribute="trailingMargin" secondItem="4ye-jN-FbZ" secondAttribute="trailing" constant="-16" id="c2c-EO-v1L"/>
+                            <constraint firstItem="pKA-0r-6Rg" firstAttribute="leading" secondItem="75p-Qw-KAn" secondAttribute="leadingMargin" constant="-10" id="fMP-3s-A3D"/>
                             <constraint firstItem="lIb-7o-BJb" firstAttribute="top" secondItem="4ye-jN-FbZ" secondAttribute="bottom" id="iKi-gO-2AB"/>
                             <constraint firstItem="4ye-jN-FbZ" firstAttribute="leading" secondItem="75p-Qw-KAn" secondAttribute="leadingMargin" constant="-16" id="vCr-5i-ODZ"/>
                             <constraint firstAttribute="centerX" secondItem="4ye-jN-FbZ" secondAttribute="centerX" id="vNS-Bd-HVn"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="IRO-fC-vuB"/>
+                                <exclude reference="bWL-EW-xKN"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="tableView" destination="4ye-jN-FbZ" id="X51-VM-p2m"/>
