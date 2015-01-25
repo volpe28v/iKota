@@ -10,23 +10,29 @@ import UIKit
 import MediaPlayer
 import AVFoundation
 
-class SearchViewController: UITableViewController {
+class SearchViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var tuneCollection : TuneCollection! = TuneCollection.sharedInstance
 
+    @IBOutlet weak var tableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.tableView.dataSource = self;
+        self.tableView.delegate = self;
+        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tuneCollection.activeAlbums.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cellTmp = tableView.dequeueReusableCellWithIdentifier("album") as? UITableViewCell
         
         if cellTmp == nil {
@@ -48,7 +54,7 @@ class SearchViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         performSegueWithIdentifier("playlist", sender: self.tuneCollection.activeAlbums[indexPath.row])
     }
 
