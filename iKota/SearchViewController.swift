@@ -44,7 +44,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         case .Album:
             return tuneCollection.activeAlbums.count
         case .Tuning:
-            return 2;
+            return tuneCollection.activeTunings.count
         case .History:
             break;
         case .Count:
@@ -106,16 +106,29 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         let cell = cellTmp!
         
         // Cellに部品を配置
-//        let tune : Tune = self.tuneCollection.activeAlbums[indexPath.row]
+        let tune : Tune = self.tuneCollection.activeTunings[indexPath.row]
         
         var title = cell.viewWithTag(1) as UILabel
-        title.text = "DADGAD"
+        title.text = tune.tuning
         
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        performSegueWithIdentifier("playlist", sender: self.tuneCollection.activeAlbums[indexPath.row])
+        switch self.searchMode
+        {
+        case .Album:
+            performSegueWithIdentifier("playlist", sender: self.tuneCollection.activeAlbums[indexPath.row])
+        case .Tuning:
+            performSegueWithIdentifier("playlistWithTuning", sender: self.tuneCollection.activeTunings[indexPath.row])
+        case .History:
+            break;
+        case .Count:
+            break;
+        default:
+            break;
+        }
+        
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -137,10 +150,17 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "playlist" {
-            var tune : Tune = sender as Tune!
-            var playListController = segue.destinationViewController as ViewController
-            playListController.displayAlbum = tune.album
+        
+        var playListController = segue.destinationViewController as ViewController
+        switch segue.identifier as String!
+        {
+            case "playlist":
+                var tune : Tune = sender as Tune!
+                playListController.displayAlbum = tune.album
+            case "playlistWithTuning":
+                playListController.displayTuneForTuning = sender as Tune!
+            default:
+                break
         }
     }
     

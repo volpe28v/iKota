@@ -22,6 +22,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var sections: Array<String> = ["Same Tuning", "Similar Tuning"]
 
     var displayAlbum : String?
+    var displayTuneForTuning : Tune?
     
 //    var avplayer : AVAudioPlayer!
     
@@ -130,7 +131,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             tune = self.relateTunes[indexPath.row]
         }else {
             tune = self.similarTunes[indexPath.row]
-            upDown = self.playingTune!.getCompareUpDownTuning(tune!)
+            upDown = self.displayTuneForTuning!.getCompareUpDownTuning(tune!)
         }
         
         let item = tune!.item as MPMediaItem
@@ -269,6 +270,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     self.updateTunelistForAlbum()
                 }
             }else{
+                if self.displayTuneForTuning?.compareTuning(t) == 0 {
+                    self.tunesTable.reloadData()
+                }else{
+                    self.displayTuneForTuning = t
+                    self.updateTunelistForTuning()
+                }
+                /*
                 if let pt = preTune {
                     if t.compareTuning(pt) == 0 {
                         self.tunesTable.reloadData()
@@ -278,6 +286,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 }else{
                     self.updateTunelistForTuning()
                 }
+*/
             }
 
             let artwork = item.valueForProperty(MPMediaItemPropertyArtwork) as MPMediaItemArtwork
@@ -314,6 +323,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             self.similarTunes = []
             self.tunesTable.reloadData()
             self.tunesIndicator.startAnimating()
+            self.displayTuneForTuning = pt
             
             self.dispatch_async_global {
                 // 別スレッド
@@ -472,11 +482,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             self.tunesIndicator.startAnimating()
 
             dispatch_async_global {
-                var targetItems = Array<AnyObject>()
                 var targetTunes = Array<Tune>()
                 for tune : Tune in self.tuneCollection.activeTunes {
                     if tune.album == album {
-                        targetItems.append(tune.item!)
                         targetTunes.append(tune)
                     }
                 }
@@ -495,4 +503,46 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             }
         }
     }
+    
+    @IBAction func playListReturnActionWiteTuningForSegue(segue: UIStoryboardSegue) {
+        if let dt = self.displayTuneForTuning {
+            self.relateTunes = []
+            self.similarTunes = []
+            self.tunesTable.reloadData()
+            self.tunesIndicator.startAnimating()
+            
+            dispatch_async_global {
+                // チューニングが同じ曲をテーブルに表示
+                var targetTunes = Array<Tune>()
+                for tune : Tune in self.tuneCollection.activeTunes {
+                    if dt.compareTuning(tune) == 0 {
+                        targetTunes.append(tune)
+                    }
+                }
+                
+                var targetSimilarTunes = Array<Tune>()
+                for tune : Tune in self.tuneCollection.activeTunes {
+                    let score = dt.compareTuning(tune)
+                    if score >= 1 && score <= 2 {
+                        targetSimilarTunes.append(tune)
+                    }
+                }
+
+                self.dispatch_async_main {
+                    // UIスレッド
+                    self.isAlbumMode = false
+                    self.listModeSegmentedControl.selectedSegmentIndex = 1
+                    self.relateTunes = targetTunes
+                    self.similarTunes = targetSimilarTunes
+                    self.sections[0] = self.makeSectionText(dt.getTuningName() + " - ", count: self.relateTunes.count)
+                    self.sections[1] = self.makeSectionText("Similar Tuning - ", count: self.similarTunes.count)
+
+                    // テーブルを更新
+                    self.tunesIndicator.stopAnimating()
+                    self.tunesTable.reloadData()
+                }
+            }
+        }
+    }
+
 }

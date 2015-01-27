@@ -423,6 +423,7 @@
                     <connections>
                         <outlet property="tableView" destination="4ye-jN-FbZ" id="X51-VM-p2m"/>
                         <segue destination="8Hv-0V-fyv" kind="unwind" identifier="playlist" unwindAction="playListReturnActionForSegue:" id="88R-nI-Giq"/>
+                        <segue destination="8Hv-0V-fyv" kind="unwind" identifier="playlistWithTuning" unwindAction="playListReturnActionWiteTuningForSegue:" id="24m-gb-DgO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4AK-1b-ZTk" userLabel="First Responder" sceneMemberID="firstResponder"/>

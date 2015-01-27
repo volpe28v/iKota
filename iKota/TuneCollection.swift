@@ -184,6 +184,7 @@ class TuneCollection {
     var tunes: [Tune] = []
     var activeTunes: [Tune] = []
     var activeAlbums: [Tune] = []
+    var activeTunings: [Tune] = []
     
     private init(){
         self.tunes = []
@@ -460,22 +461,33 @@ class TuneCollection {
             if let ti: AnyObject = tune.item {
                 self.activeTunes.append(tune)
                 
-                var isFound = false
+                // アルバムを登録
+                var isAlbumFound = false
                 for at in self.activeAlbums {
                     if tune.album == at.album {
-                        isFound = true
+                        isAlbumFound = true
                         break
                     }
                 }
-                if !isFound {
+                if !isAlbumFound {
                     self.activeAlbums.append(tune)
+                }
+                
+                // チューニングを登録
+                if tune.pitches.count == 6 {
+                    var isTuningFound = false
+                    for at in self.activeTunings {
+                        if tune.compareTuning(at) == 0 {
+                            isTuningFound = true
+                            break
+                        }
+                    }
+                    if !isTuningFound {
+                        self.activeTunings.append(tune)
+                    }
                 }
             }
         }
-    }
-    
-    func getAllTuning() -> [String] {
-        return ["Standard","DADGAD"]
     }
     
     func registItem(item : AnyObject) -> Tune? {
