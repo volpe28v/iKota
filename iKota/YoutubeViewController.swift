@@ -62,6 +62,7 @@ class YoutubeViewController: UITableViewController {
     }
     
     func getYoutube(){
+        /* youtube API が変わったので一旦コメントアウト
         self.youtubeConnector.getYoutube(self.playingTitle, resultNum: 10, completionHandler: { youtubeData in
             if youtubeData.count > 0 {
                 self.youtubeData = youtubeData
@@ -71,5 +72,6 @@ class YoutubeViewController: UITableViewController {
                 })
             }
         })
+        */
     }
 }

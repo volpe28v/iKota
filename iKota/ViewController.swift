@@ -296,6 +296,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             self.playingAlbumLabel.text = albumString
             self.playingTuningLabel.text = tuning
             
+            /* youtube APIが変わったので一旦コメントアウト
             self.playingWebView.loadHTMLString(
                 self.youtubeConnector.getBlankHtml(60,height: 60),baseURL: nil)
             self.youtubeConnector.getYoutube(titleString, resultNum: 1, completionHandler: { youtubeData in
@@ -309,6 +310,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     }
                 }
             })
+            */
         }else{
             // 該当曲なし
             return
