@@ -33,32 +33,32 @@ class YoutubeConnector{
         
         var task = NSURLSession.sharedSession().dataTaskWithURL(url, completionHandler: { data, response, error in
             
-            var videos = NSJSONSerialization.JSONObjectWithData(data, options: nil,error: nil) as NSDictionary
+            var videos = NSJSONSerialization.JSONObjectWithData(data, options: nil,error: nil) as! NSDictionary
             
-            var feed = videos["feed"] as NSDictionary
-            if let entries = feed["entry"] as NSArray? {
+            var feed = videos["feed"] as! NSDictionary
+            if let entries = feed["entry"] as! NSArray? {
                 for item in entries {
-                    var group = item["media$group"] as NSDictionary
-                    var players = group["media$player"] as NSArray
-                    var player = players[0] as NSDictionary
-                    var url = player["url"] as String
+                    var group = item["media$group"] as! NSDictionary
+                    var players = group["media$player"] as! NSArray
+                    var player = players[0] as! NSDictionary
+                    var url = player["url"] as! String
                 
-                    var thumbnails = group["media$thumbnail"] as NSArray
-                    var thumbnail = thumbnails[0] as NSDictionary
-                    var thumbnail_url = thumbnail["url"] as String
+                    var thumbnails = group["media$thumbnail"] as! NSArray
+                    var thumbnail = thumbnails[0] as! NSDictionary
+                    var thumbnail_url = thumbnail["url"] as! String
                 
-                    var title = item["title"] as NSDictionary
-                    var title_body = title["$t"] as String
+                    var title = item["title"] as! NSDictionary
+                    var title_body = title["$t"] as! String
                 
-                    var authors = item["author"] as NSArray
-                    var author = authors[0] as NSDictionary
-                    var author_name = author["name"] as NSDictionary
-                    var author_name_body = author_name["$t"] as String
+                    var authors = item["author"] as! NSArray
+                    var author = authors[0] as! NSDictionary
+                    var author_name = author["name"] as! NSDictionary
+                    var author_name_body = author_name["$t"] as! String
                 
                     var viewCount = ""
                     if let st = item["yt$statistics"] as? NSDictionary {
-                        var statistics = item["yt$statistics"] as NSDictionary
-                        viewCount = statistics["viewCount"] as String
+                        var statistics = item["yt$statistics"] as! NSDictionary
+                        viewCount = statistics["viewCount"] as! String
                         
                     }
                 
@@ -89,7 +89,7 @@ class YoutubeConnector{
     }
     
     func getVideoHtml(urlString: String, width: Int, height: Int) -> String{
-        let videoID = self.getQueryDictionary(urlString)["v"] as String
+        let videoID = self.getQueryDictionary(urlString)["v"]as! String
         
         var htmlString: NSString =
         "<!DOCTYPE html>" +
@@ -112,7 +112,7 @@ class YoutubeConnector{
             height,
             videoID)
         
-        return html
+        return html as String
     }
 
     func getBlankHtml(width: Int, height: Int) -> String{
@@ -128,21 +128,21 @@ class YoutubeConnector{
         
         let html = NSString(format: htmlString, width)
         
-        return html
+        return html as String
     }
 
     func getQueryDictionary(urlString: String) -> NSDictionary {
         let comp: NSURLComponents? = NSURLComponents(string: urlString)
         
         for (var i=0; i < comp?.queryItems?.count; i++) {
-            let item = comp?.queryItems?[i] as NSURLQueryItem
+            let item = comp?.queryItems?[i] as! NSURLQueryItem
         }
         
         func urlComponentsToDict(comp:NSURLComponents) -> Dictionary<String, String> {
             var dict:Dictionary<String, String> = Dictionary<String, String>()
             
             for (var i=0; i < comp.queryItems?.count; i++) {
-                let item = comp.queryItems?[i] as NSURLQueryItem
+                let item = comp.queryItems?[i] as! NSURLQueryItem
                 dict[item.name] = item.value
             }
             

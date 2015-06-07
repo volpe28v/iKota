@@ -66,7 +66,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.tunesTable.delegate = self;
 
         // 押尾コータローの全曲を取得して登録
-        self.player = MPMusicPlayerController.iPodMusicPlayer()
+        self.player = MPMusicPlayerController.systemMusicPlayer()
         
         // 再生変更通知を登録
         self.ncenter = NSNotificationCenter.defaultCenter()
@@ -92,7 +92,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Dispose of any resources that can be recreated.
     }
 
-    func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         if self.similarTunes.count == 0 {
             return 1;
         }else{
@@ -134,25 +134,25 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             upDown = self.displayTuneForTuning!.getCompareUpDownTuning(tune!)
         }
         
-        let item = tune!.item as MPMediaItem
+        let item = tune!.item as! MPMediaItem
         var titleString: String = tune!.title
         var albumString: String = tune!.album
         var tuningString: String = tune!.getTuningName()
 
         // Cellに部品を配置
-        var artwork = item.valueForProperty(MPMediaItemPropertyArtwork) as MPMediaItemArtwork
+        var artwork = item.valueForProperty(MPMediaItemPropertyArtwork) as! MPMediaItemArtwork
         var image = artwork.imageWithSize(CGSizeMake(50,50)) as UIImage
-        var imageView = cell.viewWithTag(1) as UIImageView
+        var imageView = cell.viewWithTag(1) as! UIImageView
         imageView.image = image
 
-        var title = cell.viewWithTag(2) as UILabel
+        var title = cell.viewWithTag(2) as! UILabel
         title.text = titleString
 
-        var tuning = cell.viewWithTag(3) as UILabel
+        var tuning = cell.viewWithTag(3) as! UILabel
         tuning.text = tuningString
         
         // 再生中マークを付ける
-        var playingMark = cell.viewWithTag(4) as UILabel
+        var playingMark = cell.viewWithTag(4) as! UILabel
         if let pt = self.playingTune {
             if pt === tune! {
                 playingMark.text = "▶︎"
@@ -163,7 +163,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             playingMark.text = ""
         }
         
-        var playCount = cell.viewWithTag(5) as UILabel
+        var playCount = cell.viewWithTag(5) as! UILabel
         let count = tune!.getPlayCount()
         if count > 0 {
             playCount.text = String(count)
@@ -171,13 +171,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             playCount.text = ""
         }
 
-        var upDownTuning = cell.viewWithTag(6) as UILabel
+        var upDownTuning = cell.viewWithTag(6) as! UILabel
         upDownTuning.text = upDown
         
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath:NSIndexPath!) {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath:NSIndexPath) {
         var tuneItems = Array<AnyObject>()
         var tune : Tune? = nil
         if indexPath.section == 0 {
@@ -286,10 +286,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 }else{
                     self.updateTunelistForTuning()
                 }
-*/
+                */
             }
 
-            let artwork = item.valueForProperty(MPMediaItemPropertyArtwork) as MPMediaItemArtwork
+            let artwork = item.valueForProperty(MPMediaItemPropertyArtwork) as! MPMediaItemArtwork
             let aw_image = artwork.imageWithSize(CGSizeMake(80,80)) as UIImage // 90x90 にすると落ちるので 80x80にしている
             self.playingImageView?.image = aw_image
             self.playingTitleLabel.text = titleString
@@ -449,8 +449,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         if segue.identifier == "youtube" {
             if let item = self.player.nowPlayingItem as MPMediaItem? {
-                var titleString: String = item.valueForProperty(MPMediaItemPropertyTitle) as String
-                var youtubeController = segue.destinationViewController as YoutubeViewController
+                var titleString: String = item.valueForProperty(MPMediaItemPropertyTitle) as! String
+                var youtubeController = segue.destinationViewController as! YoutubeViewController
                 youtubeController.playingTitle = titleString
             }
         }

@@ -40,18 +40,18 @@ class YoutubeViewController: UITableViewController {
         let cell = cellTmp!
                 
         // Cellに部品を配置
-        var webView = cell.viewWithTag(1) as UIWebView
+        var webView = cell.viewWithTag(1) as! UIWebView
         webView.scrollView.scrollEnabled = false
         webView.scrollView.bounces = false
         webView.loadHTMLString(self.youtubeConnector.getVideoHtml(self.youtubeData[indexPath.row].url, width: 110, height: 110), baseURL: nil)
         
-        var title = cell.viewWithTag(2) as UILabel
+        var title = cell.viewWithTag(2)as! UILabel
         title.text = self.youtubeData[indexPath.row].title
 
-        var author = cell.viewWithTag(3) as UILabel
+        var author = cell.viewWithTag(3) as! UILabel
         author.text = self.youtubeData[indexPath.row].author
 
-        var count = cell.viewWithTag(4) as UILabel
+        var count = cell.viewWithTag(4) as! UILabel
         count.text = self.youtubeData[indexPath.row].count
         
         return cell

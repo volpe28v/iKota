@@ -130,7 +130,7 @@ class Tune {
         
         // parseする。分割して配列に入れる
         var source_array : [Int] = []
-        var length = countElements(baseTuning)
+        var length = count(baseTuning)
         
         var pre_pitch: String = ""
         var pitch_index = 0
@@ -451,8 +451,8 @@ class TuneCollection {
         for item : AnyObject in query.items{
             if let tune = self.registItem(item){
             }else{
-                var titleString: String = item.valueForProperty(MPMediaItemPropertyTitle) as String
-                var albumString: String = item.valueForProperty(MPMediaItemPropertyAlbumTitle) as String
+                var titleString: String = item.valueForProperty(MPMediaItemPropertyTitle) as! String
+                var albumString: String = item.valueForProperty(MPMediaItemPropertyAlbumTitle) as! String
                 println("unregist - " + titleString + " : " + albumString)
             }
         }
@@ -491,8 +491,8 @@ class TuneCollection {
     }
     
     func registItem(item : AnyObject) -> Tune? {
-        var titleString: String = item.valueForProperty(MPMediaItemPropertyTitle) as String
-        var albumString: String = item.valueForProperty(MPMediaItemPropertyAlbumTitle) as String
+        var titleString: String = item.valueForProperty(MPMediaItemPropertyTitle) as! String
+        var albumString: String = item.valueForProperty(MPMediaItemPropertyAlbumTitle) as! String
         
         for tune : Tune in self.tunes{
             if tune.title == titleString && tune.album == albumString {

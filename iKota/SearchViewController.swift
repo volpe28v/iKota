@@ -85,12 +85,12 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         
         // Cellに部品を配置
         let tune : Tune = self.tuneCollection.activeAlbums[indexPath.row]
-        var artwork = tune.item!.valueForProperty(MPMediaItemPropertyArtwork) as MPMediaItemArtwork
+        var artwork = tune.item!.valueForProperty(MPMediaItemPropertyArtwork) as! MPMediaItemArtwork
         var image = artwork.imageWithSize(CGSizeMake(50,50)) as UIImage
-        var imageView = cell.viewWithTag(1) as UIImageView
+        var imageView = cell.viewWithTag(1) as! UIImageView
         imageView.image = image
         
-        var title = cell.viewWithTag(2) as UILabel
+        var title = cell.viewWithTag(2) as! UILabel
         title.text = tune.album
         
         return cell
@@ -108,7 +108,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         // Cellに部品を配置
         let tune : Tune = self.tuneCollection.activeTunings[indexPath.row]
         
-        var title = cell.viewWithTag(1) as UILabel
+        var title = cell.viewWithTag(1) as! UILabel
         title.text = tune.tuning
         
         return cell
@@ -151,14 +151,14 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        var playListController = segue.destinationViewController as ViewController
+        var playListController = segue.destinationViewController as! ViewController
         switch segue.identifier as String!
         {
             case "playlist":
-                var tune : Tune = sender as Tune!
+                var tune : Tune = sender as! Tune!
                 playListController.displayAlbum = tune.album
             case "playlistWithTuning":
-                playListController.displayTuneForTuning = sender as Tune!
+                playListController.displayTuneForTuning = sender as! Tune!
             default:
                 break
         }
