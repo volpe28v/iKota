@@ -113,11 +113,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath:NSIndexPath) -> UITableViewCell {
-        var cellTmp = tableView.dequeueReusableCellWithIdentifier("tune") as? UITableViewCell
+        var cellTmp = tableView.dequeueReusableCellWithIdentifier("tune") as UITableViewCell?
         
         if cellTmp == nil {
             cellTmp = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "tune")
-            var backgroundView = UIView()
+            let backgroundView = UIView()
             backgroundView.backgroundColor = UIColor.lightGrayColor()
             cellTmp!.selectedBackgroundView = backgroundView
             cellTmp!.detailTextLabel?.textColor = UIColor.darkGrayColor()
@@ -135,24 +135,25 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
         
         let item = tune!.item as! MPMediaItem
-        var titleString: String = tune!.title
-        var albumString: String = tune!.album
-        var tuningString: String = tune!.getTuningName()
+        let titleString: String = tune!.title
+        let tuningString: String = tune!.getTuningName()
 
         // Cellに部品を配置
-        var artwork = item.valueForProperty(MPMediaItemPropertyArtwork) as! MPMediaItemArtwork
-        var image = artwork.imageWithSize(CGSizeMake(50,50)) as UIImage
-        var imageView = cell.viewWithTag(1) as! UIImageView
-        imageView.image = image
+        if let artwork = item.valueForProperty(MPMediaItemPropertyArtwork) as? MPMediaItemArtwork {
+            let image = artwork.imageWithSize(CGSizeMake(50,50))! as UIImage
+            let imageView = cell.viewWithTag(1) as! UIImageView
+            imageView.image = image
+        }
+        
 
-        var title = cell.viewWithTag(2) as! UILabel
+        let title = cell.viewWithTag(2) as! UILabel
         title.text = titleString
 
-        var tuning = cell.viewWithTag(3) as! UILabel
+        let tuning = cell.viewWithTag(3) as! UILabel
         tuning.text = tuningString
         
         // 再生中マークを付ける
-        var playingMark = cell.viewWithTag(4) as! UILabel
+        let playingMark = cell.viewWithTag(4) as! UILabel
         if let pt = self.playingTune {
             if pt === tune! {
                 playingMark.text = "▶︎"
@@ -163,7 +164,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             playingMark.text = ""
         }
         
-        var playCount = cell.viewWithTag(5) as! UILabel
+        let playCount = cell.viewWithTag(5) as! UILabel
         let count = tune!.getPlayCount()
         if count > 0 {
             playCount.text = String(count)
@@ -171,24 +172,24 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             playCount.text = ""
         }
 
-        var upDownTuning = cell.viewWithTag(6) as! UILabel
+        let upDownTuning = cell.viewWithTag(6) as! UILabel
         upDownTuning.text = upDown
         
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath:NSIndexPath) {
-        var tuneItems = Array<AnyObject>()
+        var tuneItems = Array<MPMediaItem>()
         var tune : Tune? = nil
         if indexPath.section == 0 {
             // 選択曲を先頭にしたプレイリストを作成する
-            for (i,tune : Tune) in enumerate(self.relateTunes as Array){
+            for (i, tune): (Int, Tune) in (self.relateTunes as Array).enumerate(){
                 if (i < indexPath.row){
-                    tuneItems.append(tune.item!)
+                    tuneItems.append(tune.item! as! MPMediaItem)
                 }else if (i == indexPath.row){
-                    tuneItems.insert(tune.item!,atIndex: 0)
+                    tuneItems.insert(tune.item! as! MPMediaItem,atIndex: 0)
                 }else{
-                    tuneItems.insert(tune.item!,atIndex: tuneItems.count - indexPath.row)
+                    tuneItems.insert(tune.item! as! MPMediaItem,atIndex: tuneItems.count - indexPath.row)
                 }
             }
             
@@ -206,18 +207,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             // 選択された類似曲と同じチューニングのプレイリストを作成する
             tune = self.similarTunes[indexPath.row]
 
-            var beforeItems = Array<AnyObject>()
-            var afterItems = Array<AnyObject>()
+            var beforeItems = Array<MPMediaItem>()
+            var afterItems = Array<MPMediaItem>()
             var isFound = false
             for activeTune : Tune in self.tuneCollection.activeTunes {
                 if activeTune.compareTuning(tune!) == 0 {
                     if activeTune === tune! {
-                        beforeItems.append(tune!.item!)
+                        beforeItems.append(tune!.item! as! MPMediaItem)
                         isFound = true
                     }else if isFound {
-                        beforeItems.append(activeTune.item!)
+                        beforeItems.append(activeTune.item! as! MPMediaItem)
                     }else{
-                        afterItems.append(activeTune.item!)
+                        afterItems.append(activeTune.item! as! MPMediaItem)
                     }
                 }
             }
@@ -226,7 +227,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
         
         // リストを再生
-        var items = MPMediaItemCollection(items: tuneItems)
+        let items = MPMediaItemCollection(items: tuneItems)
         self.player.setQueueWithItemCollection(items)
         self.player.shuffleMode = MPMusicShuffleMode.Off
         self.player.repeatMode = MPMusicRepeatMode.All       //全曲でリピート
@@ -243,19 +244,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func changeTune(){
         // 再生中の曲情報を取得
-        let item = player.nowPlayingItem as MPMediaItem
-        var tune : Tune? = self.tuneCollection.getTuneByItem(item)
+        let item = player.nowPlayingItem as MPMediaItem!
+        let tune : Tune? = self.tuneCollection.getTuneByItem(item)
         if let t = tune {
-            var titleString: String = t.title
-            var albumString: String = t.album
-            var tuning: String = self.tuneCollection.getTuningByTune(titleString, album: albumString)
-            var tuningBase: String = self.tuneCollection.getTuningBaseByTune(titleString, album: albumString)
-            println(titleString)
+            let titleString: String = t.title
+            let albumString: String = t.album
+            let tuning: String = self.tuneCollection.getTuningByTune(titleString, album: albumString)
+            print(titleString)
             
-            var preTune = self.playingTune
             self.playingTune = t
             
-            var preAlbum = ""
             var preTuning = ""
             if let pt = self.playingTune {
                 preTuning = pt.tuning
@@ -289,9 +287,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 */
             }
 
-            let artwork = item.valueForProperty(MPMediaItemPropertyArtwork) as! MPMediaItemArtwork
-            let aw_image = artwork.imageWithSize(CGSizeMake(80,80)) as UIImage // 90x90 にすると落ちるので 80x80にしている
-            self.playingImageView?.image = aw_image
+            if let artwork = item.valueForProperty(MPMediaItemPropertyArtwork) as? MPMediaItemArtwork {
+                let aw_image = artwork.imageWithSize(CGSizeMake(80,80))! as UIImage // 90x90 にすると落ちるので 80x80にしている
+                self.playingImageView?.image = aw_image
+            }
             self.playingTitleLabel.text = titleString
             self.playingAlbumLabel.text = albumString
             self.playingTuningLabel.text = tuning
@@ -361,7 +360,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func makeSectionText(prefix: String, count: Int) -> String{
-        var suffix : String = count <= 1 ? " tune" : " tunes"
+        let suffix : String = count <= 1 ? " tune" : " tunes"
         return prefix + String(count) + suffix
     }
     
@@ -402,7 +401,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
 
     @IBAction func onClickPlayOrStopButton(sender: AnyObject) {
-        var state = self.player.playbackState
+        _ = self.player.playbackState
         if self.player.playbackState == MPMusicPlaybackState.Playing {
             self.playOrStopButton.title = "▶︎"
             self.player.pause()
@@ -421,9 +420,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     @IBAction func onClickShuffleButton(sender: AnyObject) {
-        var targetItems = Array<AnyObject>()
+        var targetItems = Array<MPMediaItem>()
         for tune : Tune in self.tuneCollection.activeTunes {
-            targetItems.append(tune.item!)
+            targetItems.append(tune.item! as! MPMediaItem)
         }
 
         var items = MPMediaItemCollection(items: targetItems)
@@ -451,8 +450,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         if segue.identifier == "youtube" {
             if let item = self.player.nowPlayingItem as MPMediaItem? {
-                var titleString: String = item.valueForProperty(MPMediaItemPropertyTitle) as! String
-                var youtubeController = segue.destinationViewController as! YoutubeViewController
+                let titleString: String = item.valueForProperty(MPMediaItemPropertyTitle) as! String
+                let youtubeController = segue.destinationViewController as! YoutubeViewController
                 youtubeController.playingTitle = titleString
             }
         }

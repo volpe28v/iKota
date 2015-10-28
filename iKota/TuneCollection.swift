@@ -130,27 +130,26 @@ class Tune {
         
         // parseする。分割して配列に入れる
         var source_array : [Int] = []
-        var length = count(baseTuning)
+        let length = baseTuning.characters.count
         
-        var pre_pitch: String = ""
         var pitch_index = 0
         for ( var i = 0; i < length; i++){
-            var current_pitch: Character = source[advance(source.startIndex, i)]
+            let current_pitch: Character = source[source.startIndex.advancedBy(i)]
             // #かbの場合は含めて確定する
             if (current_pitch == "#" || current_pitch == "b"){
-                var pitchString: String = source[Range(start: advance(source.startIndex, i-1),end: advance(source.startIndex, i+1))]
+                let pitchString: String = source[Range(start: source.startIndex.advancedBy(i-1),end: source.startIndex.advancedBy(i+1))]
                 source_array.append(convPitchToInt(pitchString, index: pitch_index++))
             }else{
                 if (i > 0){
-                    var pre_pitch: Character = source[advance(source.startIndex, i-1)]
+                    let pre_pitch: Character = source[source.startIndex.advancedBy(i-1)]
                     if (pre_pitch != "#" && pre_pitch != "b")
                     {
-                        var pitchString: String = source[Range(start: advance(source.startIndex, i-1),end: advance(source.startIndex, i))]
+                        let pitchString: String = source[Range(start: source.startIndex.advancedBy(i-1),end: source.startIndex.advancedBy(i))]
                         source_array.append(convPitchToInt(pitchString, index: pitch_index++))
                     }
                     
                     if (i == length - 1){
-                        var pitchString: String = source[Range(start: advance(source.startIndex, i),end: advance(source.startIndex, i+1))]
+                        let pitchString: String = source[Range(start: source.startIndex.advancedBy(i),end: source.startIndex.advancedBy(i+1))]
                         source_array.append(convPitchToInt(pitchString, index: pitch_index++))
                     }
                 }
@@ -444,21 +443,21 @@ class TuneCollection {
         
         
         // 端末に保存されている押尾コータローさんの曲を保持する
-        var query = MPMediaQuery.artistsQuery()
-        var pred : MPMediaPropertyPredicate! = MPMediaPropertyPredicate(value:"押尾コータロー", forProperty:MPMediaItemPropertyArtist)
+        let query = MPMediaQuery.artistsQuery()
+        let pred : MPMediaPropertyPredicate! = MPMediaPropertyPredicate(value:"押尾コータロー", forProperty:MPMediaItemPropertyArtist)
         query.addFilterPredicate(pred)
         
-        for item : AnyObject in query.items{
-            if let tune = self.registItem(item){
+        for item : AnyObject in query.items!{
+            if let _ = self.registItem(item){
             }else{
-                var titleString: String = item.valueForProperty(MPMediaItemPropertyTitle) as! String
-                var albumString: String = item.valueForProperty(MPMediaItemPropertyAlbumTitle) as! String
-                println("unregist - " + titleString + " : " + albumString)
+                let titleString: String = item.valueForProperty(MPMediaItemPropertyTitle) as! String
+                let albumString: String = item.valueForProperty(MPMediaItemPropertyAlbumTitle) as! String
+                print("unregist - " + titleString + " : " + albumString)
             }
         }
         
         for tune : Tune in self.tunes {
-            if let ti: AnyObject = tune.item {
+            if let _: AnyObject = tune.item {
                 self.activeTunes.append(tune)
                 
                 // アルバムを登録
@@ -491,8 +490,8 @@ class TuneCollection {
     }
     
     func registItem(item : AnyObject) -> Tune? {
-        var titleString: String = item.valueForProperty(MPMediaItemPropertyTitle) as! String
-        var albumString: String = item.valueForProperty(MPMediaItemPropertyAlbumTitle) as! String
+        let titleString: String = item.valueForProperty(MPMediaItemPropertyTitle) as! String
+        let albumString: String = item.valueForProperty(MPMediaItemPropertyAlbumTitle) as! String
         
         for tune : Tune in self.tunes{
             if tune.title == titleString && tune.album == albumString {
@@ -552,7 +551,7 @@ class TuneCollection {
     // チューニングが同じ曲を取得
     func getRelateTunes(title: String, album: String) -> Array<String>{
         var tunes = Array<String>()
-        var tuning = self.getTuningBaseByTune(title, album: album)
+        let tuning = self.getTuningBaseByTune(title, album: album)
         for tune : Tune in self.tunes{
             if tune.tuning == tuning && tune.title != title {
                 tunes.append(tune.title)

@@ -31,7 +31,7 @@ class YoutubeViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cellTmp = tableView.dequeueReusableCellWithIdentifier("video") as? UITableViewCell
+        var cellTmp = tableView.dequeueReusableCellWithIdentifier("video") as UITableViewCell?
         
         if cellTmp == nil {
             cellTmp = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "video")

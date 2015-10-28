@@ -33,7 +33,7 @@ class YoutubeConnector{
         
         var task = NSURLSession.sharedSession().dataTaskWithURL(url, completionHandler: { data, response, error in
             
-            var videos = NSJSONSerialization.JSONObjectWithData(data, options: nil,error: nil) as! NSDictionary
+            var videos = (try! NSJSONSerialization.JSONObjectWithData(data!, options: [])) as! NSDictionary
             
             var feed = videos["feed"] as! NSDictionary
             if let entries = feed["entry"] as! NSArray? {
@@ -85,13 +85,13 @@ class YoutubeConnector{
             v = v.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
             urlVars += [k + "=" + "\(v)"]
         }
-        return (!urlVars.isEmpty ? "?" : "") + join("&", urlVars)
+        return (!urlVars.isEmpty ? "?" : "") + urlVars.joinWithSeparator("&")
     }
     
     func getVideoHtml(urlString: String, width: Int, height: Int) -> String{
         let videoID = self.getQueryDictionary(urlString)["v"]as! String
         
-        var htmlString: NSString =
+        let htmlString: NSString =
         "<!DOCTYPE html>" +
             "<html>" +
             "<head>" +
@@ -116,7 +116,7 @@ class YoutubeConnector{
     }
 
     func getBlankHtml(width: Int, height: Int) -> String{
-        var htmlString: NSString =
+        let htmlString: NSString =
         "<!DOCTYPE html>" +
             "<html>" +
             "<head>" +
@@ -135,14 +135,14 @@ class YoutubeConnector{
         let comp: NSURLComponents? = NSURLComponents(string: urlString)
         
         for (var i=0; i < comp?.queryItems?.count; i++) {
-            let item = comp?.queryItems?[i] as! NSURLQueryItem
+            let item = comp?.queryItems?[i] as NSURLQueryItem!
         }
         
         func urlComponentsToDict(comp:NSURLComponents) -> Dictionary<String, String> {
             var dict:Dictionary<String, String> = Dictionary<String, String>()
             
             for (var i=0; i < comp.queryItems?.count; i++) {
-                let item = comp.queryItems?[i] as! NSURLQueryItem
+                let item = comp.queryItems?[i] as NSURLQueryItem!
                 dict[item.name] = item.value
             }
             

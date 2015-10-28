@@ -67,15 +67,13 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
             break;
         case .Count:
             break;
-        default:
-            break;
         }
         
         return getAlbumCell(tableView, cellForRowAtIndexPath: indexPath)
     }
     
     func getAlbumCell(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cellTmp = tableView.dequeueReusableCellWithIdentifier("album") as? UITableViewCell
+        var cellTmp = tableView.dequeueReusableCellWithIdentifier("album") as UITableViewCell?
         
         if cellTmp == nil {
             cellTmp = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "album")
@@ -85,19 +83,19 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         
         // Cellに部品を配置
         let tune : Tune = self.tuneCollection.activeAlbums[indexPath.row]
-        var artwork = tune.item!.valueForProperty(MPMediaItemPropertyArtwork) as! MPMediaItemArtwork
-        var image = artwork.imageWithSize(CGSizeMake(50,50)) as UIImage
-        var imageView = cell.viewWithTag(1) as! UIImageView
+        let artwork = tune.item!.valueForProperty(MPMediaItemPropertyArtwork) as! MPMediaItemArtwork
+        let image = artwork.imageWithSize(CGSizeMake(50,50)) as UIImage?
+        let imageView = cell.viewWithTag(1) as! UIImageView
         imageView.image = image
         
-        var title = cell.viewWithTag(2) as! UILabel
+        let title = cell.viewWithTag(2) as! UILabel
         title.text = tune.album
         
         return cell
     }
     
     func getTuningCell(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cellTmp = tableView.dequeueReusableCellWithIdentifier("tuning") as? UITableViewCell
+        var cellTmp = tableView.dequeueReusableCellWithIdentifier("tuning") as UITableViewCell?
         
         if cellTmp == nil {
             cellTmp = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "tuning")
@@ -108,7 +106,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         // Cellに部品を配置
         let tune : Tune = self.tuneCollection.activeTunings[indexPath.row]
         
-        var title = cell.viewWithTag(1) as! UILabel
+        let title = cell.viewWithTag(1) as! UILabel
         title.text = tune.tuning
         
         return cell
@@ -124,8 +122,6 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         case .History:
             break;
         case .Count:
-            break;
-        default:
             break;
         }
         
@@ -151,11 +147,11 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        var playListController = segue.destinationViewController as! ViewController
+        let playListController = segue.destinationViewController as! ViewController
         switch segue.identifier as String!
         {
             case "playlist":
-                var tune : Tune = sender as! Tune!
+                let tune : Tune = sender as! Tune!
                 playListController.displayAlbum = tune.album
             case "playlistWithTuning":
                 playListController.displayTuneForTuning = sender as! Tune!
