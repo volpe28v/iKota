@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>73CB0480-E2A5-478B-BA15-B9CB49746B8E</string>
+	<key>IDESourceControlProjectName</key>
+	<string>iKota</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>D2615E2D373A2F234308FEEABA41AF0074DA2588</key>
+		<string>github.com:volpe28v/iKota.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>iKota.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>D2615E2D373A2F234308FEEABA41AF0074DA2588</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>github.com:volpe28v/iKota.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>D2615E2D373A2F234308FEEABA41AF0074DA2588</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>D2615E2D373A2F234308FEEABA41AF0074DA2588</string>
+			<key>IDESourceControlWCCName</key>
+			<string>iKota</string>
+		</dict>
+	</array>
+</dict>
+</plist>
