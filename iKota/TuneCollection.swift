@@ -190,6 +190,22 @@ class TuneCollection {
     
     fileprivate init(){
         self.tunes = []
+        self.tunes.append(Tune(album:"KTR×GTR", title:"Creativetime Ragtime", tuning:"Standard", capo: 0))
+        self.tunes.append(Tune(album:"KTR×GTR", title:"Together !!!", tuning:"AAEF#AE", capo: 0))
+        self.tunes.append(Tune(album:"KTR×GTR", title:"同級生 ～Innocent Days～", tuning:"Standard", capo: 0))
+        self.tunes.append(Tune(album:"KTR×GTR", title:"my best season", tuning:"BEADF#B", capo: 0))
+        self.tunes.append(Tune(album:"KTR×GTR", title:"風と空のワルツ", tuning:"Standard", capo: 0))
+        self.tunes.append(Tune(album:"KTR×GTR", title:"えんぴつと五線譜", tuning:"Standard", capo: 5))
+        self.tunes.append(Tune(album:"KTR×GTR", title:"蜃気楼", tuning:"CGDGBbD", capo: 0))
+        self.tunes.append(Tune(album:"KTR×GTR", title:"茜色のブランコ", tuning:"Standard", capo: 0))
+        self.tunes.append(Tune(album:"KTR×GTR", title:"Moment", tuning:"AEEF#BE", capo: 0))
+        self.tunes.append(Tune(album:"KTR×GTR", title:"JOKER", tuning:"BEADF#B", capo: 0))
+        self.tunes.append(Tune(album:"KTR×GTR", title:"勿忘草", tuning:"Standard", capo: 0))
+        self.tunes.append(Tune(album:"KTR×GTR", title:"Birthday", tuning:"C#G#EF#BE", capo: 0))
+        self.tunes.append(Tune(album:"KTR×GTR", title:"Plastic Love", tuning:"Standard", capo: 0))
+        self.tunes.append(Tune(album:"KTR×GTR", title:"BE UP !", tuning:"GGDGAD", capo: 0))
+        self.tunes.append(Tune(album:"KTR×GTR", title:"Magical Beautiful Seasons feat.DEPAPEPE&NAOTO", tuning:"Standard", capo: 0))
+        self.tunes.append(Tune(album:"KTR×GTR", title:"同級生 with Yuuki Ozaki(from Galileo Galilei)", tuning:"Standard", capo: 0))
 
         self.tunes.append(Tune(album:"Tussie mussie II ～loves cinema～", title:"Melody Fair", tuning:"CGDGBD", capo: 3))
         self.tunes.append(Tune(album:"Tussie mussie II ～loves cinema～", title:"Shape Of My Heart", tuning:"CGBGBD", capo: 0))
