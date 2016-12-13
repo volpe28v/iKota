@@ -563,7 +563,7 @@
 					"/Users/kodama/Downloads/parse-library-1.6.1",
 				);
 				INFOPLIST_FILE = iKota/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = iKota;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -588,7 +588,7 @@
 					"/Users/kodama/Downloads/parse-library-1.6.1",
 				);
 				INFOPLIST_FILE = iKota/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = iKota;
 				PRODUCT_NAME = "$(TARGET_NAME)";
